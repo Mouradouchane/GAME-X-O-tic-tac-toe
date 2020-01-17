@@ -1,0 +1,101 @@
+
+header {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    width: calc(100% + 16px);
+    margin: -8px !important;
+    background : rgb(17, 17, 17);
+    
+}
+
+header .player_profile {
+    position: relative;
+    width: 100%;
+    /* border: 1px solid red; */
+    color : white;
+    font-family: monospace;
+    font-size: 4vh;
+    display: inline-block;
+}
+
+header .player_profile .player_pic_profile{
+    position: relative;
+    width: 40%;
+    display: inline-block;
+    left: 50%;
+    top: 1vh;
+    border-radius: 100px;
+    transform: translate(-50%);
+}
+
+header .player_name{
+    position: relative;
+    text-align: center;
+    cursor: default;
+}
+
+header .turn{
+    position: relative;
+    width : 6vh;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+
+#matchs_result p {
+    position: relative;
+    color : white;
+    font-size: 6vh;
+    font-family: monospace;
+    text-align: center;
+    cursor: default;
+    top: 35%;
+    transform: translate(0%,-50%);
+}
+
+#matchs_result #rslt{
+    color :rgb(67, 255, 230);
+}
+
+
+
+
+#GAME_TABLE{
+    position: relative;
+    border: 2px dashed rgb(0, 0, 0);
+    width: 40vh;
+    height: 40vh;
+    display: grid;
+    padding : 4px;
+    grid-template-columns: 1fr 1fr 1fr;
+    top: 10vh;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+#GAME_TABLE .BLOCK_STYLE{
+    position: relative;
+    border: 1px solid black;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    transition: 0.2s;
+    color : white;
+    font-size: 1.5rem;
+    background-image: url("../graphics/o.png");
+    background-size: cover;
+    text-align: center;
+    vertical-align: center;
+    font-family: monospace;
+}
+#GAME_TABLE .BLOCK_STYLE:active{
+    transform: scale(0.9);
+}
+#GAME_TABLE .BLOCK_STYLE:nth-child(even){
+    background-color: rgb(73, 71, 94);
+}
+#GAME_TABLE .BLOCK_STYLE:nth-child(odd){
+    background-color: rgb(75, 92, 128);
+}
