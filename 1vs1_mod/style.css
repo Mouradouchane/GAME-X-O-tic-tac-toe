@@ -43,7 +43,6 @@ header .turn{
     transform: translate(-50%);
 }
 
-
 #matchs_result p {
     position: relative;
     color : white;
@@ -51,16 +50,23 @@ header .turn{
     font-family: monospace;
     text-align: center;
     cursor: default;
-    top: 35%;
+    /* top: 30%; */
     transform: translate(0%,-50%);
 }
 
-#matchs_result #rslt{
+#matchs_result .rslt{
     color :rgb(67, 255, 230);
+    display: inline-block;
+    text-align: center;
+    bottom: 8vh;
+    left: 45%;
+    transform: translate(-50%,-0%) !important;
 }
 
-
-
+#matchs_result #match_result{
+    color : rgb(247, 72, 101);
+    font-size: 3vh;
+}
 
 #GAME_TABLE{
     position: relative;
@@ -97,4 +103,53 @@ header .turn{
 }
 #GAME_TABLE .BLOCK_STYLE:nth-child(odd){
     background-color: rgb(75, 92, 128);
+}
+
+#reset_game{
+    position: fixed;
+    left: 0px;
+    top: 50%;
+    padding: 4vh;
+    background-color: rgba(32, 21, 44, 0.87);
+    font-family: monospace;
+    box-shadow: 0px 0px 10px 4px rgba(0, 0, 0, 0.664);
+    border-radius: 0px 12px 12px 0px;
+    display: none;
+}
+
+#reset_game p{
+    font-size: 3vh;
+    color: rgb(255, 219, 14);
+}
+
+#reset_game button{
+    border-style: none;
+    background-color: rgb(255, 230, 0);
+    color: rgb(26, 25, 25);
+    padding : 1vh;
+    transition: 0.4s;
+    cursor: pointer;
+}
+#reset_game button:hover{
+    transition: 0.4s;
+    background-color: rgb(0, 255, 13);
+}
+#reset_game button:active{
+    transform: scale(0.9);
+}
+
+#reset_game progress[value]{
+    appearance: none;
+    background-color: rgb(22, 22, 22);
+    border-style: none;
+}
+
+#reset_game progress[value]::-moz-progress-bar{
+    background-color: rgb(255, 227, 71);
+    box-shadow: 0px 0px 12px 2px rgb(255, 227, 71);
+    transition: 0.5s;
+}
+#reset_game progress[value]::-moz-progress-bar:hover{
+    background-color: rgb(71, 255, 102);
+    box-shadow: 0px 0px 12px 2px rgb(71, 255, 80);
 }

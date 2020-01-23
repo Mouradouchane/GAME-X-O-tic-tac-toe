@@ -1,22 +1,69 @@
 
 class player{
-    constructor(name,type){
+    constructor(name,type,index = 1){
         this.name = name;
         this.owned_blocks = [];
         this.matches_win = 0;
         this.type = type;
-        this.draw_player_info = () => {
-            
+        this.index = index;
+        // this for get player info from "LOCAL DB" in browser & print it in header 
+        this.get_player_info = () => {
+            // get info from localDB
+            let PLAYER_DATA = localStorage.getItem(`Player${this.index}`);
+
+            // this has all children's
+            let class_info_in_dom = document.querySelectorAll(".player_profile");
+
+            //just checking if this is a player 1 or 2 
+            if(this.index == 1){
+                let player_name_in_dom = class_info_in_dom[0].querySelector(".player_name");
+                player_name_in_dom.textContent = this.name;
+                // print in first 
+                timer_and_result_matches[1].textContent = PLAYER_DATA;
+            }
+            if(this.index == 2){
+                let player_name_in_dom = class_info_in_dom[1].querySelector(".player_name");
+                player_name_in_dom.textContent = this.name;
+                // print in last
+                timer_and_result_matches[3].textContent = PLAYER_DATA;
+            }
+        }
+        // this for updating info to "LOCALC DB"
+        // this method must be happen when player win :)
+        this.update_player_info = () => {
+            // get info from localDB
+            let PLAYER_DATA = Number.parseInt(localStorage.getItem(`Player${this.index}`));
+
+            //just checking if this is a player 1 or 2 
+            if(this.index == 1){
+                localStorage.setItem("Player1",PLAYER_DATA+=1);
+                // call print info because there is a changed in values :)
+                this.get_player_info();
+            }
+            if(this.index == 2){
+                localStorage.setItem("Player2",PLAYER_DATA+=1);
+                // call print info because there is a changed in values :)
+                this.get_player_info();
+            }
+
+            let matchResult = document.querySelector("#match_result");
+            matchResult.textContent = "winner is :" + this.name;
         }
     }
 }
 
+const timer_and_result_matches = document.querySelector("#matchs_result").children;
+
 // define players 
-const player1 = new player("ouchane","x");
-const player2 = new player("tjego","o");
+const player1 = new player("ouchane","x",1);
+const player2 = new player("tjego","o",2);
 
 // array has players
 var PLAYERS = [player1,player2];
+
+// printing data in header in dom
+PLAYERS[0].get_player_info();
+PLAYERS[1].get_player_info();
 
 // game table
 var GAME_TABLE = document.querySelector("#GAME_TABLE");
@@ -27,7 +74,6 @@ var GAME_BLOCKS_TABLE = GAME_TABLE.children;
 var GAME_OBJECTCASE = ["x","o"];
 
 const players_info_in_dom = document.querySelectorAll(".player_profile");
-const timer_and_result_matches = document.querySelector("#matchs_result").children;
 
 // array of reserved block's
 var RESERVED_BLOCKS_IN_TABLE = [];
@@ -47,17 +93,19 @@ var LISTED_OBJECTS_BLOCKS = [];
             index : undefined,
         });
     }
-    console.log(LISTED_OBJECTS_BLOCKS);
 })();
 
 
 // time varible 
 var time = 0;
-// interval responsible for adding time every => "1sec add 1sec"
-var start_timer = setInterval(() => {
+
+function timerFunc(){
     timer_and_result_matches[0].textContent = time+"s";
     time+=1;
-} , 1000);
+} 
+
+// interval responsible for adding time every => "1sec add 1sec"
+var start_timer = setInterval(timerFunc, 1000);
 
 // for checking if draw 
 // look to GAME_CHECK_IF_DRAW function to understand why this varible !!
@@ -117,26 +165,34 @@ for(let i = 0 ; i < GAME_BLOCKS_TABLE.length ; i+=1){
 // this function "dependent" a "GAME_ALL_TRYING" varible  
 // this function called in "Interval" every "100ms" ===> in "checking_draw varible"
 function GAME_CHECK_IF_DRAW(){
+
     /* 
-        if GAME_ALL_TRYING >= 9 that mean game is end by draw 
-        because total blocks in game table is 9 :)
-        soo if condition is true stop match is end :)
+    if GAME_ALL_TRYING >= 9 that mean game is end by draw 
+    because total blocks in game table is 9 :)
+    soo if condition is true stop match is end :)
     */
+    
     if(GAME_ALL_TRYING >= 9){
-        console.warn("GAME IS DRAW");
-        // stop game by remove event from all blocks
-        REMOVE_EVENT_FROM_BLOCKS();
+
+        // printing match is draw in header
+        let matchResult = document.querySelector("#match_result");
+        matchResult.textContent = "match is draw";
 
         // stop this function !!
         clearInterval(checking_draw);
+        // stop game by remove event from all blocks
+        REMOVE_EVENT_FROM_BLOCKS();
+
         // stop timer because match is end 
         clearInterval(start_timer);
 
+    
+        Call_AutoReplay();
     }
 }
 
 // "checking every 100ms" if game is "end" & no one is win "game is draw" :)
-var checking_draw  = setInterval(GAME_CHECK_IF_DRAW , 100);
+var checking_draw  = setInterval(GAME_CHECK_IF_DRAW , 500);
 
 // sources path for go & stop png for drawing who's in turn
 var STOP_GO_SRC = ["../graphics/go.png","../graphics/stop.png"]; 
@@ -154,15 +210,18 @@ function DRAW_TURN(){
 
 function GAME_IS_WIN(){
 
+// blocks all just 3 block for winning :)
 let blocks_all = false;
+let winnerINDEX = undefined;
 
 for(let i = 0 ; i < 9 ; i+=3){
+    
+    // check all horizontal blocks for player 1 & 2
     if(LISTED_OBJECTS_BLOCKS[i] != undefined && LISTED_OBJECTS_BLOCKS[i+1] != undefined && LISTED_OBJECTS_BLOCKS[i+2] != undefined){
         if( LISTED_OBJECTS_BLOCKS[i].owner == PLAYERS[0].name && 
             LISTED_OBJECTS_BLOCKS[i+1].owner == PLAYERS[0].name && 
             LISTED_OBJECTS_BLOCKS[i+2].owner == PLAYERS[0].name ){
-            console.warn("WINNER IS :" + PLAYERS[0].name);
-            console.log(PLAYERS[0]);
+            winnerINDEX = 0;
             blocks_all = true;
             break;
         }
@@ -170,8 +229,7 @@ for(let i = 0 ; i < 9 ; i+=3){
         if( LISTED_OBJECTS_BLOCKS[i].owner == PLAYERS[1].name && 
             LISTED_OBJECTS_BLOCKS[i+1].owner == PLAYERS[1].name && 
             LISTED_OBJECTS_BLOCKS[i+2].owner == PLAYERS[1].name ){
-            console.warn("WINNER IS :" + PLAYERS[1].name);
-            console.log(PLAYERS[1]);
+            winnerINDEX = 1;
             blocks_all = true;
             break;
         }
@@ -179,12 +237,12 @@ for(let i = 0 ; i < 9 ; i+=3){
 } 
 
 for(let i = 0 ; i < 3 ; i+=1){
+        // check all vertical blocks for player 1 & 2
         if(LISTED_OBJECTS_BLOCKS[i] != undefined && LISTED_OBJECTS_BLOCKS[i+3] != undefined && LISTED_OBJECTS_BLOCKS[i+6] != undefined){
             if( LISTED_OBJECTS_BLOCKS[i].owner == PLAYERS[0].name && 
                 LISTED_OBJECTS_BLOCKS[i+3].owner == PLAYERS[0].name && 
                 LISTED_OBJECTS_BLOCKS[i+6].owner == PLAYERS[0].name ){
-                console.warn("WINNER IS :" + PLAYERS[0].name);
-                console.log(PLAYERS[0]);
+                winnerINDEX = 0;
                 blocks_all = true;
                 break;
             }
@@ -192,61 +250,135 @@ for(let i = 0 ; i < 3 ; i+=1){
             if( LISTED_OBJECTS_BLOCKS[i].owner == PLAYERS[1].name && 
                 LISTED_OBJECTS_BLOCKS[i+3].owner == PLAYERS[1].name && 
                 LISTED_OBJECTS_BLOCKS[i+6].owner == PLAYERS[1].name ){
-                console.warn("WINNER IS :" + PLAYERS[1].name);
-                console.log(PLAYERS[1]);
+                winnerINDEX = 1;
                 blocks_all = true;
                 break;
             }
         }
 }
 
+if(LISTED_OBJECTS_BLOCKS[0] != undefined && LISTED_OBJECTS_BLOCKS[4] != undefined && LISTED_OBJECTS_BLOCKS[8] != undefined &&
+    LISTED_OBJECTS_BLOCKS[2] != undefined && LISTED_OBJECTS_BLOCKS[6] != undefined
+  ){
+    // check Diagonal blocks for player 1  
     if( LISTED_OBJECTS_BLOCKS[0].owner == PLAYERS[0].name && 
         LISTED_OBJECTS_BLOCKS[4].owner == PLAYERS[0].name &&
         LISTED_OBJECTS_BLOCKS[8].owner == PLAYERS[0].name ){
-            console.warn("WINNER IS :" + PLAYERS[0].name);
-            console.log(PLAYERS[0]);
+            winnerINDEX = 0;
             blocks_all = true;
     }
-
+    // check Diagonal blocks for player 2 
     if( LISTED_OBJECTS_BLOCKS[0].owner == PLAYERS[1].name && 
         LISTED_OBJECTS_BLOCKS[4].owner == PLAYERS[1].name &&
         LISTED_OBJECTS_BLOCKS[8].owner == PLAYERS[1].name ){
-            console.warn("WINNER IS :" + PLAYERS[1].name);
-            console.log(PLAYERS[1]);
+            winnerINDEX = 1;
             blocks_all = true;
     }
 
-
+    // check Diagonal "2" blocks for player 1  
     if( LISTED_OBJECTS_BLOCKS[2].owner == PLAYERS[0].name && 
         LISTED_OBJECTS_BLOCKS[4].owner == PLAYERS[0].name &&
         LISTED_OBJECTS_BLOCKS[6].owner == PLAYERS[0].name ){
-            console.warn("WINNER IS :" + PLAYERS[0].name);
-            console.log(PLAYERS[0]);
+            winnerINDEX = 0;
             blocks_all = true;
     }
-
+    // check Diagonal "2" blocks for player 2  
     if( LISTED_OBJECTS_BLOCKS[2].owner == PLAYERS[1].name && 
         LISTED_OBJECTS_BLOCKS[4].owner == PLAYERS[1].name &&
         LISTED_OBJECTS_BLOCKS[6].owner == PLAYERS[1].name ){
-            console.warn("WINNER IS :" + PLAYERS[1].name);
-            console.log(PLAYERS[1]);
+            winnerINDEX = 1;
             blocks_all = true;
     }
-
-    if(blocks_all == true){
-        clearInterval(checking_is_win);
-        REMOVE_EVENT_FROM_BLOCKS();
-        // stop timer because match is end 
-        clearInterval(start_timer);
-    }
-        
 }
 
-var checking_is_win = setInterval(GAME_IS_WIN,200);
+    // if any one of this conditions send true this function stop after do this condition :)
+    // as last step 
+    if(blocks_all == true){
+
+        Call_AutoReplay();
+        REMOVE_EVENT_FROM_BLOCKS();
+        
+        // stop checking because match is end 
+        clearInterval(checking_is_win);
+        
+        // stop timer because match is end 
+        clearInterval(start_timer);
+
+        clearInterval(checking_draw);
+        GAME_ALL_TRYING = 0;
+
+        if(winnerINDEX == 0){
+            PLAYERS[0].update_player_info();
+        }
+        if(winnerINDEX == 1){
+            PLAYERS[1].update_player_info();
+        }
+        
+    }
+}
 
 
+
+var checking_is_win = setInterval(GAME_IS_WIN,100);
+
+// this function called when game is end in draw or in winning 
+// for remove event from all blocks in table;
 function REMOVE_EVENT_FROM_BLOCKS(){
     for(let i = 0 ; i < GAME_BLOCKS_TABLE.length ; i+=1){
         GAME_BLOCKS_TABLE[i].removeEventListener("click",DRAW_IN_BLOCK);
     }
 }
+
+
+// ******** this part for reloading game *********
+
+const resetElements = document.querySelector("#reset_game");
+const reloadElements = resetElements.children;
+//just destructing assignement reloadElements
+let [autoPlayText,progress,buttonRELOAD] = reloadElements;
+
+let CASE = ["none","block"];
+
+buttonRELOAD.addEventListener("click" , () => {   
+    HideReplay();
+    window.location.href = window.location.pathname;
+});
+
+// just displaying resetElements
+function DisplayReplay(){
+    resetElements.style.cssText = `display : ${CASE[1]};`;
+}
+// just hidding resetElements
+function HideReplay(){
+    resetElements.style.cssText = `display : ${CASE[0]};`;
+    progress.value = progress.max;
+    
+}
+
+// timer for auto replay 
+// for changing value in progress :)
+let timerAutoPlay = 30;
+
+// this function check if time autoreplay is end or not yet
+function timerReplay(){
+    autoPlayText.textContent = `auto replay in ${Number.parseInt(timerAutoPlay)}`;
+
+    if(progress.value <= 0){
+        timerAutoPlay = 30;
+        progress.value = progress.max;
+        return buttonRELOAD.click();
+    }
+    if(progress.value >= 0){
+        setTimeout( _ => {
+            timerAutoPlay -= 0.01;
+            progress.value = timerAutoPlay;
+            timerReplay();
+        } , 10);
+    }
+} 
+
+// this function just for call DisplayReplay & timerReplay 
+function Call_AutoReplay(){
+    DisplayReplay();
+    timerReplay();
+};
