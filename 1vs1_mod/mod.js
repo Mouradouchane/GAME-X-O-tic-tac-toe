@@ -1,3 +1,10 @@
+//first just checking data from localstorage 
+if(!Boolean(localStorage.getItem("Player1"))){
+    localStorage.setItem("Player1",0);
+}
+if(!Boolean(localStorage.getItem("Player2"))){
+    localStorage.setItem("Player2",0);
+}
 
 //player class 
 class player{

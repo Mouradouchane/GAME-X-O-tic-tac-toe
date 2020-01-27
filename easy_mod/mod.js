@@ -1,4 +1,12 @@
 
+//first just checking data from localstorage 
+if(!Boolean(localStorage.getItem("Player1"))){
+    localStorage.setItem("Player1",0);
+}
+if(!Boolean(localStorage.getItem("EasyBot"))){
+    localStorage.setItem("EasyBot",0);
+}
+
 // player class
 class player{
     constructor(name,type,index = 1){
@@ -244,7 +252,7 @@ function GAME_CHECK_IF_DRAW(){
 
         // stop timer because match is end 
         clearInterval(start_timer);
-        
+
         // stop & clearing checking is a bot turn or not 
         clearInterval(checkPlayer);
     
