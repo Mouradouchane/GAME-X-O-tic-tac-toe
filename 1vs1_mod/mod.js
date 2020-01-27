@@ -1,4 +1,5 @@
 
+//player class 
 class player{
     constructor(name,type,index = 1){
         this.name = name;
@@ -111,6 +112,7 @@ var start_timer = setInterval(timerFunc, 1000);
 // look to GAME_CHECK_IF_DRAW function to understand why this varible !!
 var GAME_ALL_TRYING = 0;
 
+// x & o path images
 let x = "../graphics/x.png";
 let o = "../graphics/o.png";
 

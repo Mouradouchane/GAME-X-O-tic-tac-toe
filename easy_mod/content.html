@@ -6,10 +6,49 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="style.css" rel="stylesheet">
     <link href="../graphics/logo.png" rel="shortcut icon">
-    <title>GAME[X|O] : easy MOD </title>
+    <title>GAME [X|O] : EASY MOD</title>
 </head>
 <body>
-    
+    <header>
+        <div class="player_profile">
+            <img src="../graphics/pic_player.png" class="player_pic_profile">
+            <p class="player_name"> defult </p>
+            <img class="turn" src="../graphics/go.png">
+        </div>
+
+        <div id="matchs_result">
+            <p> time </p>
+            <p class="rslt"> 0 </p>
+            <p class="rslt"> : </p>
+            <p class="rslt"> 0 </p>
+            <p id="match_result"> match is starting ... </p>
+        </div>
+
+        <div class="player_profile">
+            <img src="../graphics/pic_player.png" class="player_pic_profile">
+            <p class="player_name"> defult 2 </p>
+            <img class="turn" src="../graphics/stop.png">
+        </div>
+    </header>
+
+    <div id="GAME_TABLE">
+        <div class="BLOCK_STYLE" id="block1"></div>
+        <div class="BLOCK_STYLE" id="block2"></div>
+        <div class="BLOCK_STYLE" id="block3"></div>
+        <div class="BLOCK_STYLE" id="block4"></div>
+        <div class="BLOCK_STYLE" id="block5"></div>
+        <div class="BLOCK_STYLE" id="block6"></div>
+        <div class="BLOCK_STYLE" id="block7"></div>
+        <div class="BLOCK_STYLE" id="block8"></div>
+        <div class="BLOCK_STYLE" id="block9"></div>
+    </div>
+
+    <div id="reset_game">
+        <p> auto replay in </p>
+        <progress value="30" max="30"></progress>
+        <button> replay </button>
+    </div>
+
     <script src="mod.js"></script>
 </body>
 </html>
