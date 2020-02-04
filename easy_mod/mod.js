@@ -228,7 +228,6 @@ for(let i = 0 ; i < GAME_BLOCKS_TABLE.length ; i+=1){
     GAME_BLOCKS_TABLE[i].addEventListener("click",DRAW_IN_BLOCK);
 }
 
-
 // this function "dependent" a "GAME_ALL_TRYING" varible  
 // this function called in "Interval" every "100ms" ===> in "checking_draw varible"
 function GAME_CHECK_IF_DRAW(){
@@ -247,6 +246,7 @@ function GAME_CHECK_IF_DRAW(){
 
         // stop this function !!
         clearInterval(checking_draw);
+        
         // stop game by remove event from all blocks
         REMOVE_EVENT_FROM_BLOCKS();
 
@@ -256,8 +256,15 @@ function GAME_CHECK_IF_DRAW(){
         // stop & clearing checking is a bot turn or not 
         clearInterval(checkPlayer);
     
+        // for next game :)
         Call_AutoReplay();
         
+        if(PLAYERS[0].isbot){
+            PLAYERS[0].bot_playing = null;
+        }
+        if(PLAYERS[1].isbot){
+            PLAYERS[1].bot_playing = null;
+        }
     }
 }
 
