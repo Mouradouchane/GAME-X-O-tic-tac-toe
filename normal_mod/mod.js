@@ -88,8 +88,8 @@ class NormalBot{
         // this method must be happen when bot win :)
         this.update_bot_info = () => {
             // get info from localDB
-            let Bot_DATA = Number.parseInt(localStorage.getItem("EasyBot"));
-            localStorage.setItem("EasyBot",Bot_DATA+=1);
+            let Bot_DATA = Number.parseInt(localStorage.getItem("NormalBot"));
+            localStorage.setItem("NormalBot",Bot_DATA+=1);
             
             // call print info because there is a changed in values :)
             this.get_bot_info();
@@ -97,43 +97,54 @@ class NormalBot{
             let matchResult = document.querySelector("#match_result");
             matchResult.textContent = "winner is :" + this.name;
         }
+        this.score = [
+            [0,0,0],
+            [0,0,0],
+            [0,0,0]
+        ];
         // this method make bot playing :) (Normally & maybe intelligent)
+        this.GetInfoBlocks = ( ) => {
+            // get result blocks
+            for(let j = 0 ; j < 3 ; j += 1){
+                if(LISTED_OBJECTS_BLOCKS[j].owner == player1.name) this.score[0][j] = -1;
+                if(LISTED_OBJECTS_BLOCKS[j].owner == this.name) this.score[0][j] = 1;
+            }
+            let i = 0;
+            for(let j = 3 ; j <= 5 ; j += 1){
+                if(LISTED_OBJECTS_BLOCKS[j].owner == player1.name) this.score[1][i] = -1;
+                if(LISTED_OBJECTS_BLOCKS[j].owner == this.name) this.score[1][i] = 1;
+                i+=1;
+            }
+            i = 0;
+            for(let j = 6 ; j <= 8 ; j += 1){
+                if(LISTED_OBJECTS_BLOCKS[j].owner == player1.name) this.score[2][i] = -1;
+                if(LISTED_OBJECTS_BLOCKS[j].owner == this.name) this.score[2][i] = 1;
+                i+=1;
+            }
+        }
         this.bot_playing = () => {
-
             let Nchoise = Math.round(Math.random() * 8);
-
-            for(let i = 0 ; i < 9 ; i+=3){
-                // check all horizontal possibilities
-                if(LISTED_OBJECTS_BLOCKS[i] != undefined && LISTED_OBJECTS_BLOCKS[i+1] != undefined && LISTED_OBJECTS_BLOCKS[i+2] != undefined){
-                    if( LISTED_OBJECTS_BLOCKS[i].owner == player1.name && LISTED_OBJECTS_BLOCKS[i+1].owner == player1.name){
-                        Nchoise = i+2;
+            for(let j = 0 ; j < 9 ; j+=1){
+                for(let i = 0 ; i < 9 ; i+=1){
+                    if(this.score[j] == 1 && this.score[i] == 1){
+                        Nchoise = i+1;
+                        break;
+                    }
+                    if(this.score[j] == -1 && this.score[i] == -1){
+                        Nchoise = i+1;
                         break;
                     }
                     else{
                         Nchoise = Math.round(Math.random() * 8);
-                    }
-                }
-            } 
-        
-            for(let i = 0 ; i < 3 ; i+=1){
-                // check all vertical possibilities
-                if(LISTED_OBJECTS_BLOCKS[i] != undefined && LISTED_OBJECTS_BLOCKS[i+1] != undefined && LISTED_OBJECTS_BLOCKS[i+2] != undefined){
-                    if( LISTED_OBJECTS_BLOCKS[i].owner == player1.name && LISTED_OBJECTS_BLOCKS[i+1].owner == player1.name){
-                        if( LISTED_OBJECTS_BLOCKS[i].owner != "" && LISTED_OBJECTS_BLOCKS[i+1].owner != ""){
-                            Nchoise = i+2;
-                            break;
-                        }
-                        else{
-                            Nchoise = Math.round(Math.random() * 8);
-                        }
+                        break;
                     }
                 }
             }
-            
-            GAME_BLOCKS_TABLE[Nchoise].click();
-
+            console.log(this.score[0]);
+            console.log(this.score[1]);
+            console.log(this.score[2]);
+            return GAME_BLOCKS_TABLE[Nchoise].click();
         }
-        
     }
 }
 
@@ -142,6 +153,9 @@ const timer_and_result_matches = document.querySelector("#matchs_result").childr
 // define player & bot
 const player1 = new player("ouchane","x",1);
 const thenormal = new NormalBot();
+
+// make normal bot know info every 100ms
+const thenormalCheck = setInterval( _ => thenormal.GetInfoBlocks() , 100);
 
 // array has players
 var PLAYERS = [player1,thenormal];
