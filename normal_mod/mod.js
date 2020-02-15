@@ -102,55 +102,93 @@ class NormalBot{
             [0,0,0],
             [0,0,0]
         ];
+        this.Degscore = [
+            [0,0,0],[0,0,0]
+        ];
         // this method for helping bot to know all block owner as numbers
         // 0  block for no one 
         // 1  bot blocks 
         // -1 enime blocks
         this.GetInfoBlocks = () => {
             // get result blocks
-            for(let j = 0 ; j < 3 ; j += 1){
-                if(LISTED_OBJECTS_BLOCKS[j].owner == player1.name) this.score[0][j] = -1;
-                if(LISTED_OBJECTS_BLOCKS[j].owner == this.name) this.score[0][j] = 1;
+            for(let i = 0 ; i < LISTED_Obj_BLOCKS_ForBot.length ; i += 1){
+                for(let j = 0 ; j < LISTED_Obj_BLOCKS_ForBot.length ; j += 1){
+                    if(LISTED_Obj_BLOCKS_ForBot[i][j].type == "x") this.score[i][j] = -1;
+                    if(LISTED_Obj_BLOCKS_ForBot[i][j].type == "o") this.score[i][j] = 1;
+                }
             }
-            let i = 0;
-            for(let j = 3 ; j <= 5 ; j += 1){
-                if(LISTED_OBJECTS_BLOCKS[j].owner == player1.name) this.score[1][i] = -1;
-                if(LISTED_OBJECTS_BLOCKS[j].owner == this.name) this.score[1][i] = 1;
-                i+=1;
+            // passing check result for degscore
+            for( let i = 0 ; i < 3 ; i += 1){
+                this.Degscore[0][i] = this.score[i][i];
             }
-            i = 0;
-            for(let j = 6 ; j <= 8 ; j += 1){
-                if(LISTED_OBJECTS_BLOCKS[j].owner == player1.name) this.score[2][i] = -1;
-                if(LISTED_OBJECTS_BLOCKS[j].owner == this.name) this.score[2][i] = 1;
-                i+=1;
+            let c = 2;
+            for( let i = 0 ; i < 3 ; i += 1){
+                this.Degscore[1][i] = this.score[i][c];
+                c-=1;
             }
         }
         this.bot_playing = () => {
-
-            // call get info method for making right choose
-            this.GetInfoBlocks();
-            let Nchoise = Math.round(Math.random() * 8);
-            let index = 0;
-
-            let LISTED_Obj_BLOCKS_ForBot = [
+            
+            LISTED_Obj_BLOCKS_ForBot = [
                 LISTED_OBJECTS_BLOCKS.slice(0,3),
                 LISTED_OBJECTS_BLOCKS.slice(3,6),
                 LISTED_OBJECTS_BLOCKS.slice(6,9)
             ];
 
-            for(let i = 0 ; i < this.score.length ; i += 1){
-                if(this.score[i].filter(block => {if(block == -1)return block}).length >= 1 && this.score[i].indexOf(0) != -1){
-                    index = i+this.score[i].indexOf(0);
-                    return GAME_BLOCKS_TABLE[index].click();
-                }
-                else if(this.score[i].filter(block => {if(block == 1)return block}).length >= 1 && this.score[i].indexOf(0) != -1){
-                    index = i+this.score[i].indexOf(0);
-                    return GAME_BLOCKS_TABLE[index].click();
-                }
-                else{
-                    continue;
+            // call get info method for making right choose
+            this.GetInfoBlocks();
+
+            // for random choise as last move
+            let Nchoise = Math.round(Math.random() * 8);
+
+            let index = 0;
+            let bot = 0 , player = 0;
+            
+            for(let i = 0 ; i < 3 ; i += 1){
+                if(this.score[i].indexOf(0) != -1){
+                    // filter part 
+                    this.score[i].filter(block => {
+                        if(block == -1) player +=1;
+                        if(block == 1) bot +=1;
+                    });
+
+                    if(bot == 2 || player == 2 && this.score[i].indexOf(0) != -1){
+                        index = this.score[i].indexOf(0);
+                            bot = 0 , player = 0;
+                        return LISTED_Obj_BLOCKS_ForBot[i][index].block.click();
+                    }
+                    else{
+                        bot = 0 , player = 0;
+                        continue;
+                    }
                 }
             }
+
+            bot = 0 , player = 0;
+            var LISTED_Obj_BLOCKS_ForBot_DEG = [
+                [LISTED_OBJECTS_BLOCKS[0],LISTED_OBJECTS_BLOCKS[4],LISTED_OBJECTS_BLOCKS[8]],
+                [LISTED_OBJECTS_BLOCKS[2],LISTED_OBJECTS_BLOCKS[4],LISTED_OBJECTS_BLOCKS[6]]
+            ];
+
+            for(let c = 0 ; c < this.Degscore.length ; c += 1){
+                if(this.Degscore[c].indexOf(0) != -1){
+                    this.Degscore[c].filter(degblock => {
+                        if(degblock == -1) player += 1;
+                        if(degblock == 1) bot += 1;
+                    });
+
+                    if(bot == 2 || player == 2 && this.Degscore[c].indexOf(0) != -1){
+                        index = this.Degscore[c].indexOf(0);
+                            bot = 0 , player = 0;
+                        return LISTED_Obj_BLOCKS_ForBot_DEG[c][index].block.click();
+                    }
+                    else{
+                        bot = 0 , player = 0;
+                        continue;
+                    }
+                }
+            }
+            
             
             return GAME_BLOCKS_TABLE[Nchoise].click();
         }
@@ -163,9 +201,6 @@ const timer_and_result_matches = document.querySelector("#matchs_result").childr
 const player1 = new player("ouchane","x",1);
 const thenormal = new NormalBot();
 
-// make normal bot know info every 100ms
-const thenormalCheck = setInterval( _ => thenormal.GetInfoBlocks() , 100);
-
 // array has players
 var PLAYERS = [player1,thenormal];
 
@@ -177,6 +212,9 @@ PLAYERS[1].get_bot_info();
 var GAME_TABLE = document.querySelector("#GAME_TABLE");
 // array has all blocks in game table
 var GAME_BLOCKS_TABLE = GAME_TABLE.children;
+
+var LISTED_Obj_BLOCKS_ForBot = [];
+var LISTED_Obj_BLOCKS_ForBot_DEG = [];
 
 const players_info_in_dom = document.querySelectorAll(".player_profile");
 
@@ -531,3 +569,4 @@ function CheckingPlayerIsBot(){
 }
 
 var checkPlayer = setInterval(CheckingPlayerIsBot,100);
+
