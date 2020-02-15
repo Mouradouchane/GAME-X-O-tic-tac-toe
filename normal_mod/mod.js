@@ -102,8 +102,11 @@ class NormalBot{
             [0,0,0],
             [0,0,0]
         ];
-        // this method make bot playing :) (Normally & maybe intelligent)
-        this.GetInfoBlocks = ( ) => {
+        // this method for helping bot to know all block owner as numbers
+        // 0  block for no one 
+        // 1  bot blocks 
+        // -1 enime blocks
+        this.GetInfoBlocks = () => {
             // get result blocks
             for(let j = 0 ; j < 3 ; j += 1){
                 if(LISTED_OBJECTS_BLOCKS[j].owner == player1.name) this.score[0][j] = -1;
@@ -123,26 +126,32 @@ class NormalBot{
             }
         }
         this.bot_playing = () => {
+
+            // call get info method for making right choose
+            this.GetInfoBlocks();
             let Nchoise = Math.round(Math.random() * 8);
-            for(let j = 0 ; j < 9 ; j+=1){
-                for(let i = 0 ; i < 9 ; i+=1){
-                    if(this.score[j] == 1 && this.score[i] == 1){
-                        Nchoise = i+1;
-                        break;
-                    }
-                    if(this.score[j] == -1 && this.score[i] == -1){
-                        Nchoise = i+1;
-                        break;
-                    }
-                    else{
-                        Nchoise = Math.round(Math.random() * 8);
-                        break;
-                    }
+            let index = 0;
+
+            let LISTED_Obj_BLOCKS_ForBot = [
+                LISTED_OBJECTS_BLOCKS.slice(0,3),
+                LISTED_OBJECTS_BLOCKS.slice(3,6),
+                LISTED_OBJECTS_BLOCKS.slice(6,9)
+            ];
+
+            for(let i = 0 ; i < this.score.length ; i += 1){
+                if(this.score[i].filter(block => {if(block == -1)return block}).length >= 1 && this.score[i].indexOf(0) != -1){
+                    index = i+this.score[i].indexOf(0);
+                    return GAME_BLOCKS_TABLE[index].click();
+                }
+                else if(this.score[i].filter(block => {if(block == 1)return block}).length >= 1 && this.score[i].indexOf(0) != -1){
+                    index = i+this.score[i].indexOf(0);
+                    return GAME_BLOCKS_TABLE[index].click();
+                }
+                else{
+                    continue;
                 }
             }
-            console.log(this.score[0]);
-            console.log(this.score[1]);
-            console.log(this.score[2]);
+            
             return GAME_BLOCKS_TABLE[Nchoise].click();
         }
     }
