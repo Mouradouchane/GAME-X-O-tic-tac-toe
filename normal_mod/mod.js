@@ -105,6 +105,12 @@ class NormalBot{
         this.Degscore = [
             [0,0,0],[0,0,0]
         ];
+        this.VERscore = [
+            [0,0,0],
+            [0,0,0],
+            [0,0,0]
+        ];
+        
         // this method for helping bot to know all block owner as numbers
         // 0  block for no one 
         // 1  bot blocks 
@@ -126,6 +132,20 @@ class NormalBot{
                 this.Degscore[1][i] = this.score[i][c];
                 c-=1;
             }
+
+            for(let j = 0 ; j < 3 ; j += 1){
+                for(let i = 0 ; i < 3 ; i += 1){
+                    LISTED_Obj_BLOCKS_ForBot_VERT[j][i] = LISTED_Obj_BLOCKS_ForBot[i][j];
+                    this.VERscore[j][i]    
+                }
+            }
+            for(let i = 0 ; i < LISTED_Obj_BLOCKS_ForBot_VERT.length ; i += 1){
+                for(let j = 0 ; j < LISTED_Obj_BLOCKS_ForBot_VERT.length ; j += 1){
+                    if(LISTED_Obj_BLOCKS_ForBot_VERT[i][j].type == "x") this.VERscore[i][j] = -1;
+                    if(LISTED_Obj_BLOCKS_ForBot_VERT[i][j].type == "o") this.VERscore[i][j] = 1;
+                }
+            }
+
         }
         this.bot_playing = () => {
             
@@ -188,7 +208,33 @@ class NormalBot{
                     }
                 }
             }
+
+            bot = 0 , player = 0;
             
+            for(let j = 0 ; j < 3 ; j += 1){
+                for(let i = 0 ; i < 3 ; i += 1){
+                    LISTED_Obj_BLOCKS_ForBot_VERT[j][i] = LISTED_Obj_BLOCKS_ForBot[i][j];    
+                }
+            }
+
+            for(let c = 0 ; c < this.VERscore.length ; c += 1){
+                if(this.VERscore[c].indexOf(0) != -1){
+                    this.VERscore[c].filter(verblock => {
+                        if(verblock == -1) player += 1;
+                        if(verblock == 1) bot += 1;
+                    });
+
+                    if(bot == 2 || player == 2 && this.VERscore[c].indexOf(0) != -1){
+                        index = this.VERscore[c].indexOf(0);
+                            bot = 0 , player = 0;
+                        return LISTED_Obj_BLOCKS_ForBot_VERT[c][index].block.click();
+                    }
+                    else{
+                        bot = 0 , player = 0;
+                        continue;
+                    }
+                }
+            }
             
             return GAME_BLOCKS_TABLE[Nchoise].click();
         }
@@ -213,8 +259,10 @@ var GAME_TABLE = document.querySelector("#GAME_TABLE");
 // array has all blocks in game table
 var GAME_BLOCKS_TABLE = GAME_TABLE.children;
 
+// all blocks info for bot 
 var LISTED_Obj_BLOCKS_ForBot = [];
 var LISTED_Obj_BLOCKS_ForBot_DEG = [];
+var LISTED_Obj_BLOCKS_ForBot_VERT = [[],[],[]];
 
 const players_info_in_dom = document.querySelectorAll(".player_profile");
 

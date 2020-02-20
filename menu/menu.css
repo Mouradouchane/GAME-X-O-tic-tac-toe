@@ -1,0 +1,298 @@
+
+*{
+    margin: 0;
+    padding : 0;
+}
+
+body{
+    background : rgb(23, 84, 163);
+}
+
+#contentButton{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+#contentButton .btns{
+    position: relative;
+    font-size: 3vh;
+    padding: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+    background-color: rgb(17, 17, 17);
+    border-style: none;
+    color : white;
+    font-family: monospace;
+    font-weight: bold;
+}
+
+#contentButton .btns:active{
+    transform: scale(0.9);
+}
+
+
+/* ============== content mods ===================== */
+
+#contentMods{
+    position: absolute;
+    width: 50%;
+    left: 25%;
+    top: 50%;
+    transform: translate(-0% , -50%);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    overflow: hidden;
+    background-color: rgba(34, 34, 34, 0.884);
+    padding : 1vh;
+    border-radius: 1vh;
+    visibility: hidden;
+}
+
+#contentMods .mods{
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: 0.2s;
+    padding : 0.5vh;
+    /* background-color: rgba(57, 44, 128, 0.705); */
+}
+
+#contentMods .mods:nth-child(odd){
+    background-color: rgba(19, 19, 19, 0.705);
+}
+#contentMods .mods:nth-child(even){
+    background-color: rgba(0, 0, 0, 0.671);
+}
+
+#contentMods .mods:active{
+    transform: scale(0.9);
+}
+
+#contentMods .mods .modsPic{
+    width: 100%;
+}
+
+#contentMods .mods p {
+    color :white;
+    text-align: center;
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 3vh;
+}
+
+#back{
+    padding-left : 1vh;
+    padding-right: 1vh;
+    font-family: monospace;
+    font-size: 3vh;
+    font-weight: bold;
+    margin-top : 1vh;
+    cursor: pointer;
+    transition: 0.2s;
+    background: rgb(227, 255, 71);
+    border-style: none;
+    border-radius: 0.5vh;
+}
+
+#back:active{
+    transform: scale(0.9);
+}
+
+
+/* =============== sitting part ==================== */
+
+
+#sitting{
+    position: absolute;
+    padding: 4vh;
+    background-color: rgba(41, 25, 54, 0.863);
+    border-radius: 0.5vh;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50% , -50%);
+    width: 60%;
+    height: 60%;
+    overflow: hidden;
+    overflow-y: scroll;
+    visibility: hidden;
+}
+
+#sitting .PartOfSitting{
+    font-size: 3vh;
+    font-family: monospace;
+    color : rgb(255, 123, 123);
+    border: 0.2vh solid black;
+    border-radius: 0.5vh;
+    padding : 2vh;
+    margin-top: 0.5vh;
+}
+
+#sitting #ButtonsPart{
+    font-size: 3vh;
+    font-family: monospace;
+    color : rgb(255, 123, 123);
+    padding : 2vh;
+    margin-top: 0.5vh;
+}
+
+#sitting #ButtonsPart button{
+    font-size: 2.5vh;
+    font-family: monospace;
+    font-weight: bold;
+    padding: 1vh;
+    cursor: pointer;
+    transition: 0.2s;
+    border-style: none;
+}
+#sitting #ButtonsPart button:active{
+    transform: scale(0.9);
+}
+#sitting #ButtonsPart button:first-child{
+    background-color: rgb(71, 255, 148);
+}
+#sitting #ButtonsPart button:last-child{
+    background-color: rgb(227, 255, 71);
+}
+
+#sitting .PartOfSitting .content_prop{
+    display: block;
+    padding: 1vh;
+    width: 100%;
+    /* border: 1px solid red; */
+    margin-left: -1vh;
+    margin-top: 1vh;
+    overflow: hidden;
+}
+#sitting .PartOfSitting .title{
+    cursor: default ;
+}
+
+#sitting .PartOfSitting .content_prop .prop{
+    color : white;
+    font-size: bold;
+    font-size: 2.4vh;
+    font-family: tahoma;
+    display: inline-block;
+    margin-left: 1vh;
+    cursor: default;
+}
+
+#sitting .PartOfSitting .content_prop .inputs{
+    float: right;
+    width: 50%;
+    background : rgba(255, 255, 255, 0.774);
+    border-style: none;
+    padding: 0.5vh;
+    font-size: 2vh;
+    cursor: pointer;
+}
+
+
+#sitting .PartOfSitting .content_prop #ProfilePicterPlayer1{
+    width: 25%;
+}
+
+#sitting .PartOfSitting .content_prop #ProfilePicterPlayer2{
+    width: 25%;
+}
+
+#sitting .PartOfSitting .content_prop .playerStandarInfo{
+    color : orangered;
+    font-weight: bold;
+    font-size: 3vh;
+    float: right;
+    margin-right: 25%;
+    text-align: center;
+    margin-left: 10%;
+}
+
+#sitting .PartOfSitting .content_prop .CheckBoxInputs , .BrowseInputs{
+    float: right;
+    border-style: none;
+    margin-right: 0.5vh;
+    width: 5vh;
+    cursor: pointer;
+}
+
+#sitting .PartOfSitting .content_prop  #ExampleBlocksFull{
+    position: relative;
+    float: right;
+    width: 9vh;
+    height: 9vh;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    right: 14vh;
+}
+#sitting .PartOfSitting .content_prop .ExampleBlocks{
+    width: 4vh;
+    height: 4vh;
+    background-color: black;
+}
+#sitting .PartOfSitting .content_prop .ExampleBlocks:nth-child(even){
+    background-color: rgb(85, 247, 99);
+}
+#sitting .PartOfSitting .content_prop .ExampleBlocks:nth-child(odd){
+    background-color: rgb(238, 24, 88);
+}
+
+
+#sitting .PartOfSitting .content_prop  #Hover_ExampleBlocksFull{
+    position: relative;
+    float: right;
+    width: 9vh;
+    height: 9vh;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    right: 19.5vh;
+}
+#sitting .PartOfSitting .content_prop .Hover_ExampleBlocks{
+    width: 4vh;
+    height: 4vh;
+    background-color: black;
+    background-size: cover;
+}
+#sitting .PartOfSitting .content_prop .Hover_ExampleBlocks:nth-child(even){
+    background-color: rgb(221, 61, 61);
+    background-image: url("../graphics/x_HoverMod.png");
+}
+#sitting .PartOfSitting .content_prop .Hover_ExampleBlocks:nth-child(odd){
+    background-color: rgb(60, 73, 253);
+    background-image: url("../graphics/o_HoverMod.png");
+}
+
+#sitting .PartOfSitting .content_prop .Backgrounds{
+    position: relative;
+    float: right;
+    width: 36.5vh;
+    height: 18vh;
+    background-color: white;
+}
+
+
+#sitting .PartOfSitting .content_prop #ChosingBackgroundGame{
+    width: 36vh;
+    overflow: hidden;
+    float: right;
+    margin-right: -4vh;
+}
+
+#sitting .PartOfSitting .content_prop #ChosingBackgroundGame img{
+    position: relative;
+    width: 40%;
+    cursor: pointer;
+    transition: 0.3s;
+    border: 0.3vh solid transparent;
+    margin-left : 0.5vh;
+}
+
+#sitting .PartOfSitting .content_prop #ChosingBackgroundGame img:hover{
+    border: 0.3vh solid yellow;
+}
+
+#sitting .PartOfSitting .content_prop #ChosingBackgroundGame img:active{
+    border: 0.3vh solid yellow;
+    transform: scale(0.9);
+}
