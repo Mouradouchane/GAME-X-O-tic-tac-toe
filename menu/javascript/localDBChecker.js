@@ -2,11 +2,12 @@
 export const DB_DefKeys = [
     "EasyBot","NormalBot","Player1MatchWin","Player1Name","Player1PicturePath",
     "Player1ScoreEasyMod","Player1ScoreHardMod","Player1ScoreNormalMod","Player2MatchWin",
-    "Player2Name","Player2PicturePath"
+    "Player2Name","Player2PicturePath","GameDeatils_ColorBlockOne","GameDeatils_ColorBlockTow",
+    "isHoverModActive"
 ];
 
 export const DB_DefValues = [
-    0,0,0,"user","default",0,0,0,0,"user","default"
+    0,0,0,"user","default",0,0,0,0,"user","default","rgb(75, 92, 128)","rgb(73, 71, 94)",false
 ];
 
 export function CheckDataFromLocalDB(){
