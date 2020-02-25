@@ -28,11 +28,11 @@ function getTableModGameHidden(){
 const DivsModsAll = document.querySelectorAll(".mods");
 
 // array who has all game mods paths
-const PathsModsAll = [
-                        "/GAME-X-O-tic-tac-toe/1vs1_mod/content.html",
-                        "/GAME-X-O-tic-tac-toe/easy_mod/content.html",
-                        "/GAME-X-O-tic-tac-toe/normal_mod/content.html",
-                        "/GAME-X-O-tic-tac-toe/hard_mod/content.html"
+const   PathsModsAll = [
+        "/GAME-X-O-tic-tac-toe/1vs1_mod/content.html",
+        "/GAME-X-O-tic-tac-toe/easy_mod/content.html",
+        "/GAME-X-O-tic-tac-toe/normal_mod/content.html",
+        "/GAME-X-O-tic-tac-toe/hard_mod/content.html"
 ];
 
 function SetGameModsEvent(ArrayPaths = [],ArrayDivsMod = []){
@@ -45,7 +45,7 @@ function SetGameModsEvent(ArrayPaths = [],ArrayDivsMod = []){
         }
     }
     else{
-        let error = new error("Empty Array","Array.length 0");
+        let error = new Error("Empty Array","Array.length 0");
         throw error;
     }
 
