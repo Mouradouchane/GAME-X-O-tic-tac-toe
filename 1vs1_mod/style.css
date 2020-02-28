@@ -1,5 +1,10 @@
 
-header {
+body{
+    background-size: cover;
+    background-position-y: 110vh;
+}
+
+header{
     position: relative;
     overflow: hidden;
     display: grid;
@@ -10,7 +15,7 @@ header {
     
 }
 
-header .player_profile {
+header .player_profile{
     position: relative;
     width: 100%;
     /* border: 1px solid red; */

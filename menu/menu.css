@@ -41,7 +41,7 @@ body{
     top: 50%;
     transform: translate(-0% , -50%);
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     overflow: hidden;
     background-color: rgba(34, 34, 34, 0.884);
     padding : 1vh;
@@ -295,4 +295,8 @@ body{
 #sitting .PartOfSitting .content_prop #ChosingBackgroundGame img:active{
     border: 0.3vh solid yellow;
     transform: scale(0.9);
+}
+
+#RecentBackgroundGame{
+    background-size: cover;
 }

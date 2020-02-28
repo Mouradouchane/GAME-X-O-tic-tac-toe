@@ -618,3 +618,18 @@ function CheckingPlayerIsBot(){
 
 var checkPlayer = setInterval(CheckingPlayerIsBot,100);
 
+
+
+
+// background mod 
+function LoadRecentBackground(){
+    if( JSON.parse(localStorage.getItem("isBackgroundModActive")) ){
+        let RecentImg = localStorage.getItem("backgroundIndex");
+        document.body.style.backgroundImage = `url(${RecentImg})`;
+    }else{
+        document.body.style.backgroundColor = "white";
+    }
+}
+
+// call load recent background as first time when opening page
+LoadRecentBackground();

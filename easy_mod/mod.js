@@ -1,3 +1,5 @@
+// for removing Hover Mod events 
+import {SetHoverMod_Bot , RemoveHoverMod_Bot} from "../easy_mod/HoverMod.js";
 
 //first just checking data from localstorage 
 if(!Boolean(localStorage.getItem("Player1"))){
@@ -186,16 +188,18 @@ function DRAW_IN_BLOCK(){
     if(GAME_OBJECTCASE[0] == "x"){
         this.style.cssText = `background-image: url(${x})`;
         RESERVED_BLOCKS_IN_TABLE.push({type:"x",name:this.id,owner:PLAYERS[0].name});
-        this.removeEventListener("click",DRAW_IN_BLOCK);
         tp = "x";
     }
 
     if(GAME_OBJECTCASE[0] == "o"){
         this.style.cssText = `background-image: url(${o})`;
         RESERVED_BLOCKS_IN_TABLE.push({type:"o",name:this.id,owner:PLAYERS[0].name});
-        this.removeEventListener("click",DRAW_IN_BLOCK);
         tp = "o";
     }
+
+    this.removeEventListener("click",DRAW_IN_BLOCK);
+    this.removeEventListener("mouseover" , SetHoverMod_Bot);
+    this.removeEventListener("mouseleave", RemoveHoverMod_Bot);
 
     for(let c = 0 ; c < LISTED_OBJECTS_BLOCKS.length ; c+=1){
         if(LISTED_OBJECTS_BLOCKS[c].name == this.id){
@@ -419,6 +423,8 @@ var checking_is_win = setInterval(GAME_IS_WIN,100);
 function REMOVE_EVENT_FROM_BLOCKS(){
     for(let i = 0 ; i < GAME_BLOCKS_TABLE.length ; i+=1){
         GAME_BLOCKS_TABLE[i].removeEventListener("click",DRAW_IN_BLOCK);
+        GAME_BLOCKS_TABLE[i].removeEventListener("mouseover" , SetHoverMod_Bot);
+        GAME_BLOCKS_TABLE[i].removeEventListener("mouseleave", RemoveHoverMod_Bot);
     }
 }
 
@@ -485,3 +491,18 @@ function CheckingPlayerIsBot(){
 }
 
 var checkPlayer = setInterval(CheckingPlayerIsBot,100);
+
+
+
+// background mod 
+function LoadRecentBackground(){
+    if( JSON.parse(localStorage.getItem("isBackgroundModActive")) ){
+        let RecentImg = localStorage.getItem("backgroundIndex");
+        document.body.style.backgroundImage = `url(${RecentImg})`;
+    }else{
+        document.body.style.backgroundColor = "white";
+    }
+}
+
+// call load recent background as first time when opening page
+LoadRecentBackground();

@@ -20,7 +20,6 @@ function getTableModGameHidden(){
     contentMods.style.cssText = "visibility: hidden;";
 }
 
-
 // divs mods part 
 // making every div move you to specifice mod page 
 
@@ -31,8 +30,7 @@ const DivsModsAll = document.querySelectorAll(".mods");
 const   PathsModsAll = [
         "/GAME-X-O-tic-tac-toe/1vs1_mod/content.html",
         "/GAME-X-O-tic-tac-toe/easy_mod/content.html",
-        "/GAME-X-O-tic-tac-toe/normal_mod/content.html",
-        "/GAME-X-O-tic-tac-toe/hard_mod/content.html"
+        "/GAME-X-O-tic-tac-toe/normal_mod/content.html"
 ];
 
 function SetGameModsEvent(ArrayPaths = [],ArrayDivsMod = []){
@@ -57,8 +55,7 @@ SetGameModsEvent(PathsModsAll,DivsModsAll);
 SittingButton.addEventListener("click" , getSittingTableVisible);
 
 
-const SittingButtonsPart = document.querySelector("#ButtonsPart").children;
-const [back] = SittingButtonsPart;
+const back = document.querySelector("#ButtonsPart").children[0];
 
 
 back.addEventListener("click" , getSittingTableHidden);

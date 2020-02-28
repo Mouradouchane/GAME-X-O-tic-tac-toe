@@ -1,4 +1,9 @@
 
+body{
+    background-size: cover;
+    background-position-y: 110vh;
+}
+
 header {
     position: relative;
     overflow: hidden;
