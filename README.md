@@ -2,7 +2,7 @@
  
 ###### "tic tac toe" or "X | O" game : Free & Open-Source for you &amp;
 
-composite & complexed project :expressionless: for web writed pure javascript , html , css
+composite & complexed project :expressionless: but have a lot of control , this project for web writed pure javascript , html , css
 no frameworks no libs
  
 * this project has 4 mods working independent
@@ -12,10 +12,8 @@ no frameworks no libs
 
 :smile: => "easy" one player vs "easy bot" playing stupidly & randomly.
 
-:sunglasses: => "normal" one player vs "normal bot" playing as human thinking.
-
-:alien: => "hard" one player vs "hard bot" playing with AI.
+:sunglasses: => "normal" one player vs "normal bot" playing as human thinking "normal AI".
 
 
-:bulb: this project not completed yet 
+:bulb: this project are stable right now
 
