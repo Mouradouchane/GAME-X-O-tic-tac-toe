@@ -5,7 +5,7 @@ export const Source_XO_HoverEffect = ["../graphics/o_HoverMod.png" , "../graphic
 
 const ReservedGraphics = ["../graphics/o.png","../graphics/x.png"];
 
-function SetHoverMod_Bot(event = event){
+function SetHoverMod_BOT(event = event){
     if( 
         event.target.style.backgroundImage != `url(${ReservedGraphics[0]})` 
         || 
@@ -15,7 +15,7 @@ function SetHoverMod_Bot(event = event){
     }
 }
 
-function RemoveHoverMod_Bot(event = event){
+function RemoveHoverMod_BOT(event = event){
     if( 
         event.target.style.backgroundImage != `url(${ReservedGraphics[0]})` 
         && 
@@ -24,15 +24,15 @@ function RemoveHoverMod_Bot(event = event){
         this.style.backgroundImage = `none`;
     }
 }
-export {SetHoverMod_Bot , RemoveHoverMod_Bot};
+export {SetHoverMod_BOT , RemoveHoverMod_BOT};
 
 
 for(let i = 0 ; i < AllGameBlock.length ; i += 1){
     if( JSON.parse(localStorage.getItem("isHoverModActive")) ){
         // when mouse hover set Effect
-        AllGameBlock[i].addEventListener("mouseover", SetHoverMod_Bot);
+        AllGameBlock[i].addEventListener("mouseover", SetHoverMod_BOT);
         
         // when mouse leave deleted Effect
-        AllGameBlock[i].addEventListener("mouseleave", RemoveHoverMod_Bot);
+        AllGameBlock[i].addEventListener("mouseleave", RemoveHoverMod_BOT);
     }
 } 

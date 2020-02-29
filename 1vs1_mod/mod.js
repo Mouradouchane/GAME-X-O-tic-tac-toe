@@ -1,13 +1,6 @@
 // for removing Hover Mod events 
 import {SetHoverMod , RemoveHoverMod , Source_XO_HoverEffect} from "../1vs1_mod/HoverMod.js";
-
-//first just checking data from localstorage 
-if(!Boolean(localStorage.getItem("Player1"))){
-    localStorage.setItem("Player1",0);
-}
-if(!Boolean(localStorage.getItem("Player2"))){
-    localStorage.setItem("Player2",0);
-}
+import {GetRecentColors} from "./colors.js";
 
 //player class 
 class player{
@@ -20,7 +13,7 @@ class player{
         // this for get player info from "LOCAL DB" in browser & print it in header 
         this.get_player_info = () => {
             // get info from localDB
-            let PLAYER_DATA = localStorage.getItem(`Player${this.index}`);
+            let PLAYER_DATA = localStorage.getItem(`Player${this.index}MatchWin`);
 
             // this has all children's
             let class_info_in_dom = document.querySelectorAll(".player_profile");
@@ -43,16 +36,16 @@ class player{
         // this method must be happen when player win :)
         this.update_player_info = () => {
             // get info from localDB
-            let PLAYER_DATA = Number.parseInt(localStorage.getItem(`Player${this.index}`));
+            let PLAYER_DATA = Number.parseInt(localStorage.getItem(`Player${this.index}MatchWin`));
 
             //just checking if this is a player 1 or 2 
             if(this.index == 1){
-                localStorage.setItem("Player1",PLAYER_DATA+=1);
+                localStorage.setItem("Player1MatchWin",PLAYER_DATA+=1);
                 // call print info because there is a changed in values :)
                 this.get_player_info();
             }
             if(this.index == 2){
-                localStorage.setItem("Player2",PLAYER_DATA+=1);
+                localStorage.setItem("Player2MatchWin",PLAYER_DATA+=1);
                 // call print info because there is a changed in values :)
                 this.get_player_info();
             }
@@ -66,8 +59,8 @@ class player{
 const timer_and_result_matches = document.querySelector("#matchs_result").children;
 
 // define players 
-const player1 = new player("ouchane","x",1);
-const player2 = new player("tjego","o",2);
+const player1 = new player(localStorage.getItem("Player1Name"),"x",1);
+const player2 = new player(localStorage.getItem("Player2Name"),"o",2);
 
 // array has players
 var PLAYERS = [player1,player2];
@@ -144,7 +137,10 @@ function DRAW_IN_BLOCK(){
     this.removeEventListener("click",DRAW_IN_BLOCK);
     this.removeEventListener("mouseover" , SetHoverMod);
     this.removeEventListener("mouseleave", RemoveHoverMod);
+
     Source_XO_HoverEffect.reverse();
+    
+    GetRecentColors();
 
     for(let c = 0 ; c < LISTED_OBJECTS_BLOCKS.length ; c+=1){
         if(LISTED_OBJECTS_BLOCKS[c].name == this.id){

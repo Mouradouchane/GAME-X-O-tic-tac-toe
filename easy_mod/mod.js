@@ -1,13 +1,6 @@
 // for removing Hover Mod events 
 import {SetHoverMod_Bot , RemoveHoverMod_Bot} from "../easy_mod/HoverMod.js";
-
-//first just checking data from localstorage 
-if(!Boolean(localStorage.getItem("Player1"))){
-    localStorage.setItem("Player1",0);
-}
-if(!Boolean(localStorage.getItem("EasyBot"))){
-    localStorage.setItem("EasyBot",0);
-}
+import {GetRecentColors} from "./colors.js";
 
 // player class
 class player{
@@ -21,42 +14,37 @@ class player{
         // this for get player info from "LOCAL DB" in browser & print it in header 
         this.get_player_info = () => {
             // get info from localDB
-            let PLAYER_DATA = localStorage.getItem(`Player${this.index}`);
+            let PLAYER_DATA = localStorage.getItem(`Player1ScoreEasyMod`);
 
             // this has all children's
             let class_info_in_dom = document.querySelectorAll(".player_profile");
 
             //just checking if this is a player 1 or 2 
-            if(this.index == 1){
-                let player_name_in_dom = class_info_in_dom[0].querySelector(".player_name");
-                player_name_in_dom.textContent = this.name;
-                // print in first 
-                timer_and_result_matches[1].textContent = PLAYER_DATA;
-            }
-            if(this.index == 2){
-                let player_name_in_dom = class_info_in_dom[1].querySelector(".player_name");
-                player_name_in_dom.textContent = this.name;
-                // print in last
-                timer_and_result_matches[3].textContent = PLAYER_DATA;
-            }
+            // if(this.index == 1){
+            let player_name_in_dom = class_info_in_dom[0].querySelector(".player_name");
+            player_name_in_dom.textContent = this.name;
+            // print in first 
+            timer_and_result_matches[1].textContent = PLAYER_DATA;
+            // }
+            // if(this.index == 2){
+            //     let player_name_in_dom = class_info_in_dom[1].querySelector(".player_name");
+            //     player_name_in_dom.textContent = this.name;
+            //     // print in last
+            //     timer_and_result_matches[3].textContent = PLAYER_DATA;
+            // }
         }
         // this for updating info to "LOCALC DB"
         // this method must be happen when player win :)
         this.update_player_info = () => {
             // get info from localDB
-            let PLAYER_DATA = Number.parseInt(localStorage.getItem(`Player${this.index}`));
+            let PLAYER_DATA = Number.parseInt(localStorage.getItem(`Player1ScoreEasyMod`));
 
             //just checking if this is a player 1 or 2 
-            if(this.index == 1){
-                localStorage.setItem("Player1",PLAYER_DATA+=1);
+            // if(this.index == 1){
+                localStorage.setItem("Player1ScoreEasyMod",PLAYER_DATA+=1);
                 // call print info because there is a changed in values :)
                 this.get_player_info();
-            }
-            if(this.index == 2){
-                localStorage.setItem("Player2",PLAYER_DATA+=1);
-                // call print info because there is a changed in values :)
-                this.get_player_info();
-            }
+            // }
 
             let matchResult = document.querySelector("#match_result");
             matchResult.textContent = "winner is :" + this.name;
@@ -118,7 +106,7 @@ class EasyBot{
 const timer_and_result_matches = document.querySelector("#matchs_result").children;
 
 // define player & bot
-const player1 = new player("ouchane","x",1);
+const player1 = new player(localStorage.getItem("Player1Name"),"x",1);
 const Bot_MrEasy = new EasyBot();
 
 // array has players
@@ -200,6 +188,8 @@ function DRAW_IN_BLOCK(){
     this.removeEventListener("click",DRAW_IN_BLOCK);
     this.removeEventListener("mouseover" , SetHoverMod_Bot);
     this.removeEventListener("mouseleave", RemoveHoverMod_Bot);
+
+    GetRecentColors();
 
     for(let c = 0 ; c < LISTED_OBJECTS_BLOCKS.length ; c+=1){
         if(LISTED_OBJECTS_BLOCKS[c].name == this.id){

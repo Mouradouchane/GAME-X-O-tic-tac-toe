@@ -1,8 +1,7 @@
+// for removing Hover Mod events 
+import {SetHoverMod_BOT , RemoveHoverMod_BOT} from "../normal_mod/HoverMod.js";
+import {GetRecentColors} from "./colors.js";
 
-//first just checking data from localstorage 
-if(!Boolean(localStorage.getItem("Player1"))){
-    localStorage.setItem("Player1",0);
-}
 if(!Boolean(localStorage.getItem("NormalBot"))){
     localStorage.setItem("NormalBot",0);
 }
@@ -19,39 +18,26 @@ class player{
         // this for get player info from "LOCAL DB" in browser & print it in header 
         this.get_player_info = () => {
             // get info from localDB
-            let PLAYER_DATA = localStorage.getItem(`Player${this.index}`);
+            let PLAYER_DATA = localStorage.getItem(`Player1ScoreNormalMod`);
             
             // this has all children's
             let class_info_in_dom = document.querySelectorAll(".player_profile");
 
             //just checking if this is a player 1 or 2 
-            if(this.index == 1){
-                let player_name_in_dom = class_info_in_dom[0].querySelector(".player_name");
-                player_name_in_dom.textContent = this.name;
-                // print in first 
-                timer_and_result_matches[1].textContent = PLAYER_DATA;
-            }
-            if(this.index == 2){
-                let player_name_in_dom = class_info_in_dom[1].querySelector(".player_name");
-                player_name_in_dom.textContent = this.name;
-                // print in last
-                timer_and_result_matches[3].textContent = PLAYER_DATA;
-            }
+            let player_name_in_dom = class_info_in_dom[0].querySelector(".player_name");
+            player_name_in_dom.textContent = this.name;
+            // print in first 
+            timer_and_result_matches[1].textContent = PLAYER_DATA;
         }
         // this for updating info to "LOCALC DB"
         // this method must be happen when player win :)
         this.update_player_info = () => {
             // get info from localDB
-            let PLAYER_DATA = Number.parseInt(localStorage.getItem(`Player${this.index}`));
+            let PLAYER_DATA = Number.parseInt(localStorage.getItem(`Player1ScoreNormalMod`));
 
             //just checking if this is a player 1 or 2 
             if(this.index == 1){
-                localStorage.setItem("Player1",PLAYER_DATA+=1);
-                // call print info because there is a changed in values :)
-                this.get_player_info();
-            }
-            if(this.index == 2){
-                localStorage.setItem("Player2",PLAYER_DATA+=1);
+                localStorage.setItem("Player1ScoreNormalMod",PLAYER_DATA+=1);
                 // call print info because there is a changed in values :)
                 this.get_player_info();
             }
@@ -244,7 +230,7 @@ class NormalBot{
 const timer_and_result_matches = document.querySelector("#matchs_result").children;
 
 // define player & bot
-const player1 = new player("ouchane","x",1);
+const player1 = new player(localStorage.getItem("Player1Name"),"x",1);
 const thenormal = new NormalBot();
 
 // array has players
@@ -319,16 +305,20 @@ function DRAW_IN_BLOCK(){
     if(GAME_OBJECTCASE[0] == "x"){
         this.style.cssText = `background-image: url(${x})`;
         RESERVED_BLOCKS_IN_TABLE.push({type:"x",name:this.id,owner:PLAYERS[0].name});
-        this.removeEventListener("click",DRAW_IN_BLOCK);
         tp = "x";
     }
 
     if(GAME_OBJECTCASE[0] == "o"){
         this.style.cssText = `background-image: url(${o})`;
         RESERVED_BLOCKS_IN_TABLE.push({type:"o",name:this.id,owner:PLAYERS[0].name});
-        this.removeEventListener("click",DRAW_IN_BLOCK);
         tp = "o";
     }
+    
+    this.removeEventListener("click",DRAW_IN_BLOCK);
+    this.removeEventListener("mouseover" , SetHoverMod_BOT);
+    this.removeEventListener("mouseleave", RemoveHoverMod_BOT);
+
+    GetRecentColors();
 
     for(let c = 0 ; c < LISTED_OBJECTS_BLOCKS.length ; c+=1){
         if(LISTED_OBJECTS_BLOCKS[c].name == this.id){
@@ -551,6 +541,8 @@ var checking_is_win = setInterval(GAME_IS_WIN,100);
 function REMOVE_EVENT_FROM_BLOCKS(){
     for(let i = 0 ; i < GAME_BLOCKS_TABLE.length ; i+=1){
         GAME_BLOCKS_TABLE[i].removeEventListener("click",DRAW_IN_BLOCK);
+        GAME_BLOCKS_TABLE[i].removeEventListener("mouseover" , SetHoverMod_BOT);
+        GAME_BLOCKS_TABLE[i].removeEventListener("mouseleave", RemoveHoverMod_BOT);
     }
 }
 
