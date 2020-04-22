@@ -6,6 +6,10 @@ if(!Boolean(localStorage.getItem("NormalBot"))){
     localStorage.setItem("NormalBot",0);
 }
 
+if(localStorage.getItem("Player1ScoreNormalMod") == NaN && !Boolean(localStorage.getItem("Player1ScoreNormalMod"))){
+    localStorage.setItem("Player1ScoreNormalMod",0);
+}
+
 // player class
 class player{
     constructor(name,type,index = 1){
@@ -19,6 +23,7 @@ class player{
         this.get_player_info = () => {
             // get info from localDB
             let PLAYER_DATA = localStorage.getItem(`Player1ScoreNormalMod`);
+            this.matches_win = PLAYER_DATA;
             
             // this has all children's
             let class_info_in_dom = document.querySelectorAll(".player_profile");
@@ -611,8 +616,6 @@ function CheckingPlayerIsBot(){
 var checkPlayer = setInterval(CheckingPlayerIsBot,100);
 
 
-
-
 // background mod 
 function LoadRecentBackground(){
     if( JSON.parse(localStorage.getItem("isBackgroundModActive")) ){
@@ -625,3 +628,22 @@ function LoadRecentBackground(){
 
 // call load recent background as first time when opening page
 LoadRecentBackground();
+
+
+// this part for upgrading picture player
+
+const picsPlayerOneInDOM = document.querySelectorAll(".player_pic_profile")[0];
+
+function PrintNewPlayerPictuer(PathInLocalDB , PicterInDocument){
+    const GetPictuer = localStorage.getItem(PathInLocalDB).trim();
+    
+    if(GetPictuer != null && GetPictuer.startsWith("data:image") && GetPictuer != ""){
+        PicterInDocument.src = GetPictuer;
+    }
+    else{
+        console.error("invalid pictuer path in Local Storage");
+        loadDefultPictuer(PicterInDocument);
+    }
+}
+
+PrintNewPlayerPictuer("Player1PicturePath" , picsPlayerOneInDOM);

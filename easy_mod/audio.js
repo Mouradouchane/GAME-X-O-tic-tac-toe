@@ -17,3 +17,23 @@ function SetEffectClickForAllBlock(){
 }
 
 SetEffectClickForAllBlock();
+
+var musicModActive = JSON.parse(localStorage.getItem("isMusicModActive"));
+
+if(musicModActive){
+    var DefultMusic = new Audio();
+        DefultMusic.src = sourceMusic;
+        DefultMusic.loop = true;
+
+        
+        if(localStorage.getItem("CurrentTime_Music")){
+            DefultMusic.currentTime = localStorage.getItem("CurrentTime_Music");
+        }
+        DefultMusic.play();
+
+    // for saving current time of music "for keep playing in other mods :)"
+    setInterval(() => {
+        localStorage.setItem("CurrentTime_Music",DefultMusic.currentTime);
+        //DefultMusic.currentTime = 100;
+    }, 1000);
+}

@@ -410,3 +410,24 @@ function LoadRecentBackground(){
 
 // call load recent background as first time when opening page
 LoadRecentBackground();
+
+
+// this part for upgrading picture player
+
+const pics = document.querySelectorAll(".player_pic_profile");
+const picsPlayerOneInDOM = pics[0] , picsPlayerTowInDOM = pics[1];
+
+function PrintNewPlayerPictuer(PathInLocalDB , PicterInDocument){
+    const GetPictuer = localStorage.getItem(PathInLocalDB).trim();
+    
+    if(GetPictuer != null && GetPictuer.startsWith("data:image") && GetPictuer != ""){
+        PicterInDocument.src = GetPictuer;
+    }
+    else{
+        console.error("invalid pictuer path in Local Storage");
+        loadDefultPictuer(PicterInDocument);
+    }
+}
+
+PrintNewPlayerPictuer("Player1PicturePath" , picsPlayerOneInDOM);
+PrintNewPlayerPictuer("Player2PicturePath" , picsPlayerTowInDOM);

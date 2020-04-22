@@ -11,6 +11,15 @@ const MusicSitting = GameAudio.querySelector("#MusicEffect");
 // music constant               // source music
 const DefultMusic = new Audio(); DefultMusic.src = DefultMusicSource;
 
+DefultMusic.currentTime = localStorage.getItem("CurrentTime_Music");
+DefultMusic.loop = true;
+
+// for saving current time of music "for keep playing in other mods :)"
+setInterval(() => {
+    localStorage.setItem("CurrentTime_Music",DefultMusic.currentTime);
+    //DefultMusic.currentTime = 100;
+}, 1000);
+
 // keys for "Music Mod" & "Effect Click"
 const isMusicModActive = "isMusicModActive";
 const isEffectClicksActive = "isEffectClicksActive";
