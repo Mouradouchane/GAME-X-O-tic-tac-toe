@@ -256,11 +256,11 @@ body{
 }
 #sitting .PartOfSitting .content_prop .Hover_ExampleBlocks:nth-child(even){
     background-color: rgb(221, 61, 61);
-    background-image: url("../graphics/x_HoverMod.png");
+    background-image: url("../../graphics/x_HoverMod.png");
 }
 #sitting .PartOfSitting .content_prop .Hover_ExampleBlocks:nth-child(odd){
     background-color: rgb(60, 73, 253);
-    background-image: url("../graphics/o_HoverMod.png");
+    background-image: url("../../graphics/o_HoverMod.png");
 }
 
 #sitting .PartOfSitting .content_prop .Backgrounds{
