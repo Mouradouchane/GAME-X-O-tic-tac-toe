@@ -22,14 +22,32 @@ export class game_sitting_side{
         
 
         // function change/update player name & win counts in sitting side
-        this.updatePlayerDataInSitting = (idx = 1) => {
-            //debugger
-            let userPart = document.querySelectorAll(".PartOfSitting")[(idx == 1 ? 0 : 1)];
-            let nameArea = userPart.querySelector((idx == 1 ) ? "#PlayerOneStandarUsername" : "#PlayerTowStandarUsername");
-            let winsArea = userPart.querySelector((idx == 1 ) ? "#PlayerOneStandarScore" : "#PlayerTowStandarScore");
+        this.loadPlayerDataInSitting = (idx = 1) => {
+            //debugger     
 
+            let userPart = document.querySelectorAll(".PartOfSitting")[(idx == 1 ? 0 : 1)];
+            // player name 
+            let nameArea = userPart.querySelector((idx == 1 ) ? "#PlayerOneStandarUsername" : "#PlayerTowStandarUsername");
+            // player win's
+            let winsArea = userPart.querySelector((idx == 1 ) ? "#PlayerOneStandarScore" : "#PlayerTowStandarScore");
+            // player photo
+            let userphoto = userPart.querySelector((idx == 1) ? "#ProfilePicterPlayer1" : "#ProfilePicterPlayer2");
+
+            // update name in dom
             nameArea.textContent = (idx == 1) ? this.player1_data.name : this.player2_data.name ;
+            // update wins count in dom
             winsArea.textContent = (idx == 1) ? this.player1_data.wins : this.player2_data.wins ;
+
+            // update pic in dom 
+            if((idx == 1) ? this.player1_data.photo != undefined : this.player2_data.photo != undefined){
+                userphoto.src = (idx == 1) ? this.player1_data.photo : this.player2_data.photo;
+            }
+            else {
+                userphoto.src = Player.defphoto_path;
+                console.warn("GAME : missing player " + idx + " photo , try to reupload it");
+            }
+
+
         }
 
         // function load player obj from localDB in case not found it's make a new player obj
@@ -40,7 +58,7 @@ export class game_sitting_side{
             player_data = (player_data != null) ? JSON.parse(player_data) : new Player();
 
             // update values in dom
-            this.updatePlayerDataInSitting( (idx == 1) ? 1 : 2 );
+            // this.loadPlayerDataInSitting( (idx == 1) ? 1 : 2 );
 
             return player_data;
         }
@@ -71,7 +89,7 @@ export class game_sitting_side{
             this.savePlayerData(1);
 
             // update values in dom
-            this.updatePlayerDataInSitting(1);
+            this.loadPlayerDataInSitting(1);
         });
 
         // same event in input 2
@@ -86,7 +104,7 @@ export class game_sitting_side{
             this.savePlayerData(2);
 
             // update values in dom
-            this.updatePlayerDataInSitting(2);
+            this.loadPlayerDataInSitting(2);
         });
 
 
@@ -94,16 +112,58 @@ export class game_sitting_side{
         this.player1_photo_input = document.querySelector("#PlayerOnePicture");
         this.player2_photo_input = document.querySelector("#PlayerTowPicture");
 
+        // this function works when playr 1 change his profile photo
         this.player1_photo_input.addEventListener("change" , (e) => {
+            // trying to load photo
             let photo_file = e.target.files[0];
-
             let file = new FileReader();
-            console.log( file.readAsArrayBuffer(photo_file) ) ;
+            
+            // in case user upload a valid photo
+            if( photo_file ){
+                file.readAsDataURL(photo_file);
+            }
+            
+            // then we load that valid image & save player data in localDB  
+            file.onload = (e) => {
+
+                this.player1_data.photo = file.result;
+
+                this.savePlayerData(1);
+                this.loadPlayerData(1);
+                this.loadPlayerDataInSitting(1);
+
+            }
         });
 
+
+        // this function works when playr 2 change his profile photo
+        this.player2_photo_input.addEventListener("change" , (e) => {
+            // trying to load photo
+            let photo_file = e.target.files[0];
+            let file = new FileReader();
+            
+            // in case user upload a valid photo
+            if( photo_file ){
+                file.readAsDataURL(photo_file);
+            }
+            
+            // then we load that valid image & save player data in localDB  
+            file.onload = (e) => {
+
+                this.player2_data.photo = file.result;
+
+                this.savePlayerData(2);
+                this.loadPlayerData(2);
+                this.loadPlayerDataInSitting(2);
+
+
+            }
+        });
+
+
         // update values in dom
-        this.updatePlayerDataInSitting(1);
-        this.updatePlayerDataInSitting(2);
+        this.loadPlayerDataInSitting(1);
+        this.loadPlayerDataInSitting(2);
     }
 
 }
