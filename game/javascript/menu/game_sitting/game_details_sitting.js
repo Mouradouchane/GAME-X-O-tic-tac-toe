@@ -33,9 +33,13 @@ export class game_details_sitting{
         [this.sqr1_input_color , this.sqr2_input_color] = this.game_details_dom.querySelectorAll(".BrowseInputs");
         [this.sqr1_input_color_result , this.sqr2_input_color_result ] = this.game_details_dom.querySelectorAll(".ExampleBlocks");
         [this.sqr1_hover,this.sqr2_hover] = this.game_details_dom.querySelectorAll(".Hover_ExampleBlocks");
+        
+        // background & backgrounds
+        this.RecentBackgroundInGame = this.game_details_dom.querySelector("#RecentBackgroundGame");
+        this.backgrounds = document.querySelectorAll(".backs");
 
         // check box's
-        this.HoverModCheckBox = this.game_details_dom.querySelector("#HoverModEffect");
+        this.HoverModCheckBox     = this.game_details_dom.querySelector("#HoverModEffect");
         this.BackgrondModCheckBox = this.game_details_dom.querySelector("#BackgrondModCheckBox");
 
         // this function try to load saved "game_details_obj" in case no found it it return empty one
@@ -68,6 +72,11 @@ export class game_details_sitting{
             this.HoverModCheckBox.checked     = this.game_details_obj.hover_mod;
             this.BackgrondModCheckBox.checked = this.game_details_obj.background_mod;
 
+            
+            if(this.game_details_obj.background_id != undefined && this.game_details_obj.background_mod){
+                this.RecentBackgroundInGame.style.cssText = `background-image : url(${this.backgrounds[this.game_details_obj.background_id].src});`;
+            }
+
             this.save_details_obj();
         }
 
@@ -88,14 +97,26 @@ export class game_details_sitting{
         })
         this.BackgrondModCheckBox.addEventListener("change" , () => {
             this.game_details_obj.background_mod = this.BackgrondModCheckBox.checked;
-            this.save_details_obj();
+            // update + save
+            this.update_details_side_in_sitting();            
         })
+
+        // when player click on background => that mean he choose it 
+        for(let b = 0 ; b < this.backgrounds.length ; b += 1){
+            this.backgrounds[b].addEventListener("click" , () => {
+                // the change happend if background mod active 
+                if(this.game_details_obj.background_mod){
+                    this.game_details_obj.background_id = b;
+                    this.update_details_side_in_sitting();
+                }
+            })
+        }
+
 
         // load "details obj" in creation time 
         this.load_details_obj();
         // update def value 
         this.update_details_side_in_sitting();
 
-   
     }
 }
