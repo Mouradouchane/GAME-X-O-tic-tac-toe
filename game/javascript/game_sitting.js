@@ -1,6 +1,7 @@
 
 // this moduel control & contain all thing's about sitting in game 
-import {player_sitting} from "./game_sitting_players.js";
+import {player_sitting} from "./menu/game_sitting/game_players_sitting.js";
+import {game_details_sitting} from "./menu/game_sitting/game_details_sitting.js"
 
 export class game_sitting_side{
 
@@ -21,8 +22,12 @@ export class game_sitting_side{
                 this.sitting_side.style.cssText = "visibility: hidden";
         });
         
-        // the hole side of player profile sitting as class
+        // load players sitting side 
         this.player_sitting_side = new player_sitting();
+
+        // load game_details sitting side 
+        this.game_details_side = new game_details_sitting();
+
     }
 
 }
