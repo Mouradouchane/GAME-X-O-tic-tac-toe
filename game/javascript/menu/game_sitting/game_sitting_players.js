@@ -1,4 +1,4 @@
-import {Player} from "../player/player.js";
+import {Player} from "../../player/player.js";
 
 export class player_sitting{
 
@@ -23,7 +23,7 @@ export class player_sitting{
             // update name in dom
             nameArea.textContent = (idx == 1) ? this.player1_data.name : this.player2_data.name ;
             // update wins count in dom
-            winsArea.textContent = (idx == 1) ? this.player1_data.wins : this.player2_data.wins ;
+            winsArea.textContent = "Match Win : " + (idx == 1) ? this.player1_data.wins : this.player2_data.wins ;
 
             // update pic in dom 
             userphoto.src = (idx == 1 ) ? this.player1_data.photo : this.player2_data.photo;
