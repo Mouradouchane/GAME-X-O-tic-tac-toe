@@ -1,0 +1,42 @@
+
+#new_game_table_size{
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 1vh;
+    top:50%;
+    left:50%;
+    transform: translate(-50% , -50%);
+    visibility: hidden;
+}
+
+#table_size_range{
+    width: 100%;
+    display: block;
+}
+
+#table_size_value{
+    font-family: monospace;
+    font-size: 3vh;
+    font-weight: bold;
+    color :white;
+    display: inline-block;
+}
+
+#start_new_game{
+    padding-left : 1vh;
+    padding-right: 1vh;
+    font-family: monospace;
+    font-size: 3vh;
+    font-weight: bold;
+    margin-top : 1vh;
+    cursor: pointer;
+    transition: 0.2s;
+    background: rgb(71, 255, 117);
+    border-style: none;
+    /* border-radius: 0.5vh; */
+    display: inline-block;
+}
+
+#start_new_game:active{
+    transform: scale(0.90);
+}

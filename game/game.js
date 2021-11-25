@@ -12,5 +12,3 @@ class Game{
 }
 
 const game = new Game();
-
-// console.log( game.menu.game_sitting_side.player1_data )

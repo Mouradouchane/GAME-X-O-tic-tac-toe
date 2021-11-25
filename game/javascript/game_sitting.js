@@ -11,18 +11,24 @@ export class game_sitting_side{
         this.sitting_side   = document.querySelector("#sitting");
         this.back_button    = this.sitting_side.querySelector("#sitting_back_button");
         this.sitting_button = document.querySelector("#SittingButton");
+        this.sitting_background = document.querySelector("#sitting_background");
        
-
         // click on sitting button make "sitting_side" visible
         this.sitting_button.addEventListener("click" , () => {
-                this.sitting_side.style.cssText = "visibility: visible";
+            this.sitting_side.style.cssText       = "visibility: visible";
+            this.sitting_background.style.cssText = "visibility: visible";  
         });
 
         // click on back button in "sitting_side" make "sitting_side" hidden
         this.back_button.addEventListener("click" , () => {
-                this.sitting_side.style.cssText = "visibility: hidden";
+            this.sitting_side.style.cssText       = "visibility: hidden";
+            this.sitting_background.style.cssText = "visibility: hidden";
         });
-        
+        this.sitting_background.addEventListener("click" , () => {
+            this.sitting_side.style.cssText       = "visibility: hidden";
+            this.sitting_background.style.cssText = "visibility: hidden";
+        })
+    
         // load players side in sitting  
         this.player_sitting_side = new player_sitting();
 

@@ -5,37 +5,40 @@
     <link rel="shortcut icon" href="./graphics/logo.png">
     <link rel="stylesheet" href="css/menu.css">
     <link rel="stylesheet" href="css/table_style.css">
+    <link rel="stylesheet" href="css/men_play_new_game.css">
     <title> [X|O] : MENU</title>
 </head>
 <body>
-
-
+    
     <!-- play & sitting buttons -->
     <div id="contentButton">
         <button class="btns" id="PlayButton"> PLAY </button>
         <button class="btns" id="SittingButton"> SITTING </button>
     </div>
-
+    
+    <div id="sitting_background"> </div>
 
     <!-- game mod part  -->
     <div id="contentMods">
-        <div class="mods" id="mod_1">
-            <img src="./graphics/pic_player.png" class="modsPic" alt="">
+        <div class="mods" id="1vs1_mod">
+            <img src="./graphics/1vs1.png" class="modsPic" alt="">
             <p>1 vs 1</p>
         </div>
-        <div class="mods" id="mod_2">
-            <img src="./graphics/bot_normal.png" class="modsPic" alt="">
-            <p>Easy </p>
-        </div>
-        <div class="mods" id="mod_3">
-            <img src="./graphics/bot_normal.png"  class="modsPic" alt="">
-            <p>Normal </p>
+        <div class="mods" id="bot_mod">
+            <img src="./graphics/1vsbot.png" class="modsPic" alt="">
+            <p>1 vs BOT </p>
         </div>
         <div id="HideMods">
             <button id="back"> back </button>
         </div>
     </div>
 
+    <!-- game table size -->
+    <div id="new_game_table_size">
+        <input type="range" id="table_size_range" max=32 min=3 value=3>
+        <p id="table_size_value"> table size : 3 </p>
+        <button id="start_new_game" > GO !</button>
+    </div>
 
     <!-- sitting part -->
     <div id="sitting">
