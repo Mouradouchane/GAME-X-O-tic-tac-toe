@@ -53,7 +53,7 @@ export class game_details_sitting{
             else {  // in case not found
                 this.game_details_obj = new game_details_obj();
                 this.save_details_obj();
-                console.warn("missing sitting => 'details side' object from localDB recreating new one");
+                console.warn("GAME : 'details object' not found in localDB , recreating new one");
             }
         }
 
@@ -62,7 +62,7 @@ export class game_details_sitting{
             localStorage.setItem("game_details_obj" , JSON.stringify(this.game_details_obj));
         }
 
-        this.update_details_side_in_sitting = () => {
+        this.update_details_in_sitting_side = () => {
             this.sqr1_input_color_result.style.cssText = "background-color : " + this.game_details_obj.sqr1_color;
             this.sqr2_input_color_result.style.cssText = "background-color : " + this.game_details_obj.sqr2_color;
             
@@ -88,11 +88,11 @@ export class game_details_sitting{
         // event when player take a new color 
         this.sqr1_input_color.addEventListener("change" , () => {
             this.game_details_obj.sqr1_color = this.sqr1_input_color.value ;
-            this.update_details_side_in_sitting();
+            this.update_details_in_sitting_side();
         })
         this.sqr2_input_color.addEventListener("change" , () => {
             this.game_details_obj.sqr2_color = this.sqr2_input_color.value ;
-            this.update_details_side_in_sitting();
+            this.update_details_in_sitting_side();
         })
 
         // event when player turn on/off check box's in sitting
@@ -103,7 +103,7 @@ export class game_details_sitting{
         this.BackgrondModCheckBox.addEventListener("change" , () => {
             this.game_details_obj.background_mod = this.BackgrondModCheckBox.checked;
             // update + save
-            this.update_details_side_in_sitting();            
+            this.update_details_in_sitting_side();            
         })
 
 
@@ -113,7 +113,7 @@ export class game_details_sitting{
                 // the change happend if background mod active 
                 if(this.game_details_obj.background_mod){
                     this.game_details_obj.background_id = b;
-                    this.update_details_side_in_sitting();
+                    this.update_details_in_sitting_side();
                 }
             })
         }
@@ -122,7 +122,7 @@ export class game_details_sitting{
         // load "details obj" in creation time 
         this.load_details_obj();
         // update def value 
-        this.update_details_side_in_sitting();
+        this.update_details_in_sitting_side();
 
     }
 }
