@@ -72,9 +72,14 @@ export class game_details_sitting{
             this.HoverModCheckBox.checked     = this.game_details_obj.hover_mod;
             this.BackgrondModCheckBox.checked = this.game_details_obj.background_mod;
 
-            
+            // load background in sitting only in case backgorund_mod is on            
             if(this.game_details_obj.background_id != undefined && this.game_details_obj.background_mod){
                 this.RecentBackgroundInGame.style.cssText = `background-image : url(${this.backgrounds[this.game_details_obj.background_id].src});`;
+            }
+            // otherwise
+            else{
+                this.RecentBackgroundInGame.style.cssText = "background-image : none; background-color:white;";
+                this.game_details_obj.background_id = undefined;
             }
 
             this.save_details_obj();
@@ -100,6 +105,7 @@ export class game_details_sitting{
             // update + save
             this.update_details_side_in_sitting();            
         })
+
 
         // when player click on background => that mean he choose it 
         for(let b = 0 ; b < this.backgrounds.length ; b += 1){
