@@ -9,9 +9,9 @@ export class game_sitting_side{
     constructor(){
 
         this.sitting_side   = document.querySelector("#sitting");
-        this.back_button    = this.sitting_side.querySelector("#sitting_back_button");
         this.sitting_button = document.querySelector("#SittingButton");
         this.sitting_background = document.querySelector("#sitting_background");
+        this.back_button    = this.sitting_side.querySelector("#sitting_back_button");
        
         // click on sitting button make "sitting_side" visible
         this.sitting_button.addEventListener("click" , () => {
