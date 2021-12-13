@@ -4,28 +4,41 @@ body{
     background-position-y: 110vh;
 }
 
-header {
-    position: relative;
-    overflow: hidden;
-    display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
-    width: calc(100% + 16px);
-    margin: -8px !important;
-    background : rgb(17, 17, 17);
-    
+/*  the hole game table */
+#game_tabel{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    /* default white background in case user not selected any background*/
+    background : rgb(146, 79, 79);
 }
 
-header .player_profile {
-    position: relative;
-    width: 100%;
-    /* border: 1px solid red; */
+
+/* hole player profile in  */
+.player_profile {
+    position: absolute;
+    width: 15%;
+    background :rgba(0, 0, 0, 0.7);
     color : white;
     font-family: monospace;
-    font-size: 4vh;
-    display: inline-block;
+    font-size: 3vh;
+    top: 50%;
+    transform: translate(0%,-50%);
+    box-shadow: 0vh 0.5vh 0.5vh 0.5vh rgba(0, 0, 0, 0.4);
 }
 
-header .player_profile .player_pic_profile{
+/* player 1 & player 2 Ui position */
+#player_1Ui{
+    left : 0px;
+    border-radius: 0vh 2vh 2vh 0vh;
+
+}
+#player_2Ui{
+    right : 0px;
+    border-radius: 2vh 0vh 0vh 2vh;
+}
+
+.player_profile .player_pic_profile{
     position: relative;
     width: 40%;
     display: inline-block;
@@ -35,43 +48,44 @@ header .player_profile .player_pic_profile{
     transform: translate(-50%);
 }
 
-header .player_name{
+.player_name{
     position: relative;
     text-align: center;
     cursor: default;
 }
 
-header .turn{
+.turn{
     position: relative;
     width : 6vh;
     left: 50%;
     transform: translate(-50%);
 }
 
+#matchs_result{
+    position: absolute;
+    /* border : 1px solid red; */
+    left: 50%;
+    transform: translate(-50%,0%);
+    background: rgba(0, 0, 0, 0.7);
+    box-shadow: 0vh 0.5vh 0.5vh 0.5vh rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+}
+
 #matchs_result p {
     position: relative;
+    display: block;
     color : white;
-    font-size: 6vh;
+    font-size: 3vh;
     font-family: monospace;
     text-align: center;
     cursor: default;
-    /* top: 30%; */
-    transform: translate(0%,-50%);
+    padding: 1vh;
 }
 
-#matchs_result .rslt{
+#matchs_result .match_rslt{
     color :rgb(67, 255, 230);
-    display: inline-block;
-    text-align: center;
-    bottom: 8vh;
-    left: 45%;
-    transform: translate(-50%,-0%) !important;
 }
 
-#matchs_result #match_result{
-    color : rgb(247, 72, 101);
-    font-size: 3vh;
-}
 
 #GAME_TABLE{
     position: relative;

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="./graphics/logo.png">
     <link rel="stylesheet" href="css/menu.css">
-    <link rel="stylesheet" href="css/table_style.css">
+    <link rel="stylesheet" href="css/game_table_style.css">
     <link rel="stylesheet" href="css/men_play_new_game.css">
     <title> [X|O] : MENU</title>
 </head>
@@ -152,6 +152,53 @@
             <button id="sitting_back_button">back</button>
         </div>
     </div>
+
+
+
+
+    <!-- game table "side" -->
+      
+    <div id="game_tabel">
+
+        <!-- player 1 Ui -->
+        <div class="player_profile" id="player_1Ui">
+            <img src="./graphics/pic_player.png" class="player_pic_profile">
+            <p class="player_name"> defult </p>
+            <img class="turn" src="./graphics/go.png">
+        </div>
+
+        <!-- match result & controller when users seen time & who is his turn -->
+        <div id="matchs_result">
+            <p class="match_time"> 00:00 </p>
+            <p class="match_rslt"> win's 0 : 0 </p>
+        </div>
+
+        <!-- player 2 Ui -->
+        <div class="player_profile" id="player_2Ui">
+            <img src="./graphics/bot_normal.png" class="player_pic_profile">
+            <p class="player_name"> defult 2 </p>
+            <img class="turn" src="./graphics/stop.png">
+        </div>
+
+        <div id="GAME_TABLE">
+            <div class="BLOCK_STYLE" id="block1"></div>
+            <div class="BLOCK_STYLE" id="block2"></div>
+            <div class="BLOCK_STYLE" id="block3"></div>
+            <div class="BLOCK_STYLE" id="block4"></div>
+            <div class="BLOCK_STYLE" id="block5"></div>
+            <div class="BLOCK_STYLE" id="block6"></div>
+            <div class="BLOCK_STYLE" id="block7"></div>
+            <div class="BLOCK_STYLE" id="block8"></div>
+            <div class="BLOCK_STYLE" id="block9"></div>
+        </div>
+
+        <div id="reset_game">
+            <p> auto replay in </p>
+            <progress value="30" max="30"></progress>
+            <button> replay </button>
+        </div>
+    </div>
+
 
     <script src="./game.js" type="module"></script>
 </body>
