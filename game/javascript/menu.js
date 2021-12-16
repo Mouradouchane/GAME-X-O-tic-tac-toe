@@ -9,6 +9,8 @@ export class Menu{
     constructor(){
         this.play_new_game_side = new play_new_game_side();
         this.game_sitting_side = new game_sitting_side();
+
+        
     }
 
 }

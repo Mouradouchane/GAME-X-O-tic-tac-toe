@@ -11,6 +11,20 @@ class game_audio_obj {
 export class game_audio_sitting{
     constructor(){
         this.audio_obj = undefined;
+        this.musicPath = "./sound/defMusic.mp3";
+        this.musicPlayer = new Audio(this.musicPath);
+
+        // just a simple function for turn music on/off in each time
+        this.musicOnOff = () => {
+            // in case music option is on
+            if(this.audio_obj.music){
+                this.musicPlayer.play();
+            }
+            // in case music is off
+            else {
+                this.musicPlayer.pause();
+            }
+        }
 
         // load audio object from localDB
         this.load_audio_obj = () => {
@@ -55,10 +69,12 @@ export class game_audio_sitting{
         this.Music_checkBox.addEventListener("change" , () => {
             this.audio_obj.music = this.Music_checkBox.checked;
             this.save_audio_obj();
+            this.musicOnOff();
         });
         
         // load audio sitting form localDB + updated dom
         this.load_audio_obj();
         this.update_audio_in_sitting_side();
+        this.musicOnOff();
     }
 }
