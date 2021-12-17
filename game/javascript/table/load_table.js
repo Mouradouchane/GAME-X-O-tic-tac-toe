@@ -12,6 +12,8 @@ export class table{
         // function must be run when user click on GO button
         // this function it's task only load game table with right style
         this.load_table_elements = () => {
+            //debugger    
+            
             // setup table grid
             this.table_dom.style.cssText = `grid-template-columns : repeat(${this.game_table_size}, 1fr)`;
             
@@ -41,6 +43,14 @@ export class table{
                 this.blocks.push(element);
             }
             
+            // load background if user allow that 
+            let table_background = document.querySelector("#game_tabel");
+            
+            if(game_details_obj.background_mod && game_details_obj.background_id != undefined){
+                 table_background.style.backgroundImage = `url("./graphics/backgrounds/background_${game_details_obj.background_id + 1}.jpg")`;
+            }
+            else table_background.style.backgroundColor = `white`;
+           
         }
         
         this.load_table_elements();

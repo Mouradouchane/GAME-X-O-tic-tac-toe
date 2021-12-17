@@ -23,6 +23,7 @@ export class game_table{
         
         // when user click go that mean => "start a new game"
         this.go_button.addEventListener("click" , () => {
+            //debugger
             // we starting a new game in case no game already playing 
             if(!this.inGame){
                 this.load_game_table = new table(Number.parseInt(this.game_mode) , Number.parseInt(this.table_size_range.value));
