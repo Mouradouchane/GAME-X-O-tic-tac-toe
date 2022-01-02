@@ -9,9 +9,13 @@ export class table{
         this.game_mode = (game_mod == 1) ? 1 : 2;
         this.game_table_size = (game_table_size < 3) ? 3 : game_table_size;
 
+        // table proprties
         this.blocks = [];
         this.table_dom = document.querySelector("#GAME_TABLE");
-        
+        this.reservedBlock = 0;
+
+        this.playersTurns = document.querySelectorAll(".turn");
+
         // all players data include BOT :)
         this.player1 = null;
         this.player2 = null;
@@ -72,16 +76,21 @@ export class table{
 
                     // when user click on that block
                     element.addEventListener("click", () => {
+                        // in case block empty
                         if(element.getAttribute("empty") == "0"){
-                            
+                    
+                            this.reservedBlock += 1;
                             if(this.player1.turn){
                                 element.style.backgroundImage = "url('./graphics/x.png')";
                             }
                             else element.style.backgroundImage = "url('./graphics/o.png')";
-
+                            
                             [this.player1.turn , this.player2.turn] = [this.player2.turn , this.player1.turn];
+                            
+                            this.playersTurns[0].src = "./graphics/" + ((this.player1.turn) ? "go.png" : "stop.png");
+                            this.playersTurns[1].src = "./graphics/" + ((this.player2.turn) ? "go.png" : "stop.png");
                         }
-
+                        
                         element.setAttribute("empty" , 1);
                     });
 

@@ -2,8 +2,8 @@
 export class time{
 
     constructor(){
-        this.sec = 55;
-        this.min = 9;
+        this.sec = 0;
+        this.min = 0;
 
         this.dom = document.querySelector("#table_timer");
         this.strTime = "00:00";
