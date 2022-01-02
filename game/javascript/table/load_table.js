@@ -1,11 +1,11 @@
-import {BOT} from "../bot/bot.js";
-
 // this moduel should "load/generate" the hole game table with specific size & players data & ...
+
+import {BOT} from "../bot/bot.js";
 
 export class table{
     // game mode mean "1 vs 1" or "1 vs bot"
     constructor(game_mod  = 1 , game_table_size = 3){
-
+        
         this.game_mode = (game_mod == 1) ? 1 : 2;
         this.game_table_size = (game_table_size < 3) ? 3 : game_table_size;
 

@@ -1,10 +1,13 @@
-
 import {table} from "./table/load_table.js";
+import {time} from "./table/time.js";
 
 export class game_table{
 
     constructor(){
+        // game status
         this.inGame = false;
+        // game time
+        this.timer = new time();
 
         // var important for knowing - in wich mod user want to start a new game "1 vs 1" or "1 vs bot"
         this.game_mode = 1;
@@ -23,15 +26,18 @@ export class game_table{
         
         // when user click go that mean => "start a new game"
         this.go_button.addEventListener("click" , () => {
-            //debugger
+
             // we starting a new game in case no game already playing 
             if(!this.inGame){
                 this.load_game_table = new table(Number.parseInt(this.game_mode) , Number.parseInt(this.table_size_range.value));
+                // start timer
+                this.timer.start();
             }
             else console.warn("GAME : you are already in game right know !");
 
             // switch it to true :)
             this.inGame = true;
+            
         })
 
         this.oneVsone_button.addEventListener("click" , () => {
