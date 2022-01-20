@@ -13,7 +13,7 @@ export class game_table{
         this.game_mode = 1;
 
         // object who responsible for load/render game_table for a new game 
-        this.load_game_table = null;
+        this.game_table = null;
 
         // go button => start new game 
         this.go_button = document.querySelector("#start_new_game");
@@ -29,7 +29,7 @@ export class game_table{
 
             // we starting a new game in case no game already playing 
             if(!this.inGame){
-                this.load_game_table = new table(Number.parseInt(this.game_mode) , Number.parseInt(this.table_size_range.value));
+                this.game_table = new table(Number.parseInt(this.game_mode) , Number.parseInt(this.table_size_range.value));
                 // start timer
                 this.timer.start();
             }

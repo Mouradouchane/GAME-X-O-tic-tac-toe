@@ -11,6 +11,21 @@ export class table{
 
         // table proprties
         this.blocks = [];
+
+        // virtual 2d array for keep tracking the game & deciding 
+        this.virtualtable = [];
+
+        // fill virtual table by "0's"
+        this.filltable = () => {
+            for(let i = 0 ; i < game_table_size ; i += 1){
+                this.virtualtable[i] = [];
+                for(let c = 0 ; c < game_table_size ; c += 1){
+                    this.virtualtable[i][c] = 0;
+                }
+            }
+        }
+        this.filltable();
+            
         this.table_dom = document.querySelector("#GAME_TABLE");
         this.reservedBlock = 0;
 
@@ -28,6 +43,54 @@ export class table{
         // loading "this.game_details_obj" for using saved values from user "colors , background ..."
         this.game_details_obj = JSON.parse( localStorage.getItem("game_details_obj") ); 
 
+
+        // table block's events
+        this.events = {
+            onclick : () => {
+                // in case block empty
+                if(element.getAttribute("empty") == "0"){
+                    //debugger
+                    this.reservedBlock += 1;
+
+                    if(this.player1.turn){
+                        element.style.backgroundImage = "url('./graphics/x.png')";
+                    }
+                    else element.style.backgroundImage = "url('./graphics/o.png')";
+                    
+                    // if  1 vs 1 mod
+                    if(this.game_mode == 1){
+                        [this.player1.turn , this.player2.turn] = [this.player2.turn , this.player1.turn];
+                        this.playersTurns[0].src = "./graphics/" + ((this.player1.turn) ? "go.png" : "stop.png");
+                        this.playersTurns[1].src = "./graphics/" + ((this.player2.turn) ? "go.png" : "stop.png");
+                    }
+                    // if 1 vs bot mod
+                    else{
+                        [this.player1.turn , this.bot.turn] = [this.bot.turn , this.player1.turn];
+                        this.playersTurns[0].src = "./graphics/" + ((this.player1.turn) ? "go.png" : "stop.png");
+                        this.playersTurns[1].src = "./graphics/" + ((this.bot.turn) ? "go.png" : "stop.png");    
+                    } 
+                    
+                }
+                
+                element.setAttribute("empty" , 1);
+            },
+            
+            on_hover : () => {
+                if(element.getAttribute("empty") == "0" && this.game_details_obj.hover_mod){
+                    if(this.player1.turn){
+                        element.style.backgroundImage = "url('./graphics/x_HoverMod.png')";
+                    }
+                    else element.style.backgroundImage = "url('./graphics/o_HoverMod.png')";
+                }
+            },
+
+            on_hover_out : () => {
+                if(element.getAttribute("empty") == "0"){
+                    element.style.backgroundImage = "url('#')";
+                }
+            }
+
+        }
         // function must be run when user click on "GO button"
         // this function it's task only load game table with right style
         this.load_table_elements = () => {
@@ -45,68 +108,33 @@ export class table{
             let color2 = this.game_details_obj.sqr2_color;
 
             // generate blocks + neede stuff with each block 
-            for(let x = 1 ; x <= this.game_table_size*this.game_table_size ; x += 1){
+            for(let i = 0 ; i < this.game_table_size; i += 1){
+                this.blocks[i] = [];
                 
-                // a new block
+                for(let c = 0 ; c < this.game_table_size; c += 1){
+                // a new table block
                 let element = document.createElement("div");
-                // setup that new block
+                    // setup this new block
                     element.setAttribute("class","BLOCK_STYLE");
-                    element.setAttribute("id","block"+x);
-                    element.setAttribute("index", x);
+                    element.setAttribute("id","block"+i*c);
+                    element.setAttribute("index", i*c);
                     element.setAttribute("empty", 0);
-                    element.style.cssText = `background-color : ${(x % 2 != 0) ? color1 : color2}`;
+                    element.style.cssText = `background-color : ${((i+1*c+1) % 2 != 0) ? color1 : color2}`;
 
-                // setup events on that 
+                    // setup events for this block 
                     // when user hover in  that block
-                    element.addEventListener("mouseover", () => {
-                        if(element.getAttribute("empty") == "0" && this.game_details_obj.hover_mod){
-                            if(this.player1.turn){
-                                 element.style.backgroundImage = "url('./graphics/x_HoverMod.png')";
-                            }
-                            else element.style.backgroundImage = "url('./graphics/o_HoverMod.png')";
-                        }
-                    });
+                    element.addEventListener("mouseover", this.events.on_hover);
 
                     // when user hover out of that block
-                    element.addEventListener("mouseout", () => {
-                        if(element.getAttribute("empty") == "0"){
-                            element.style.backgroundImage = "url('#')";
-                        }
-                    });
+                    element.addEventListener("mouseout", this.events.on_hover_out);
 
                     // when user click on that block
-                    element.addEventListener("click", () => {
-                        // in case block empty
-                        if(element.getAttribute("empty") == "0"){
-                            //debugger
-                            this.reservedBlock += 1;
+                    element.addEventListener("click", this.events.onclick);
 
-                            if(this.player1.turn){
-                                element.style.backgroundImage = "url('./graphics/x.png')";
-                            }
-                            else element.style.backgroundImage = "url('./graphics/o.png')";
-                            
-                            // if  1 vs 1 mod
-                            if(this.game_mode == 1){
-                                [this.player1.turn , this.player2.turn] = [this.player2.turn , this.player1.turn];
-                                this.playersTurns[0].src = "./graphics/" + ((this.player1.turn) ? "go.png" : "stop.png");
-                                this.playersTurns[1].src = "./graphics/" + ((this.player2.turn) ? "go.png" : "stop.png");
-                            }
-                            // if 1 vs bot mod
-                            else{
-                                [this.player1.turn , this.bot.turn] = [this.bot.turn , this.player1.turn];
-                                this.playersTurns[0].src = "./graphics/" + ((this.player1.turn) ? "go.png" : "stop.png");
-                                this.playersTurns[1].src = "./graphics/" + ((this.bot.turn) ? "go.png" : "stop.png");    
-                            } 
-                            
-                        }
-                        
-                        element.setAttribute("empty" , 1);
-                    });
-
-                // add block to the game table
-                this.table_dom.appendChild(element);  
-                this.blocks.push(element);
+                    // insert it in dom & reserved blocks
+                    this.table_dom.appendChild(element);  
+                    this.blocks[i][c] = element;            
+                }
             }
             
             // load background if user allow that 
@@ -170,5 +198,21 @@ export class table{
         }
 
         this.load_table_elements();
+
+        this.clean_table = () => {
+            for(let i = 0 ; i < this.game_table_size ; i += 1){
+                for(let c = 0 ; c < this.game_table_size ; c += 1){
+                    this.virtualtable[i][c] = 0;
+                    this.blocks[i][c] 
+                }
+            }
+        }
+
+        // function responsible for logic , win , tie , ...
+        this.check_game = () =>{
+
+        }
+
+        this
     }
 }
