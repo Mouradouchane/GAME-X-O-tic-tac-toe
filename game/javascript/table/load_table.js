@@ -4,7 +4,7 @@ import {BOT} from "../bot/bot.js";
 
 export class table{
     // game mode mean "1 vs 1" or "1 vs bot"
-    constructor(game_mod  = 1 , game_table_size = 3){
+    constructor(game_mod = 1 , game_table_size = 3){
         
         this.game_mode = (game_mod == 1) ? 1 : 2;
         this.game_table_size = (game_table_size < 3) ? 3 : game_table_size;
@@ -19,7 +19,7 @@ export class table{
         // all players data include BOT :)
         this.player1 = null;
         this.player2 = null;
-        this.bot = new BOT();
+        this.bot = (game_mod == 1) ? null : new BOT(this , game_table_size);
 
         // both "player_profile" side in table
         // for loading players data on it
@@ -78,17 +78,27 @@ export class table{
                     element.addEventListener("click", () => {
                         // in case block empty
                         if(element.getAttribute("empty") == "0"){
-                    
+                            //debugger
                             this.reservedBlock += 1;
+
                             if(this.player1.turn){
                                 element.style.backgroundImage = "url('./graphics/x.png')";
                             }
                             else element.style.backgroundImage = "url('./graphics/o.png')";
                             
-                            [this.player1.turn , this.player2.turn] = [this.player2.turn , this.player1.turn];
+                            // if  1 vs 1 mod
+                            if(this.game_mode == 1){
+                                [this.player1.turn , this.player2.turn] = [this.player2.turn , this.player1.turn];
+                                this.playersTurns[0].src = "./graphics/" + ((this.player1.turn) ? "go.png" : "stop.png");
+                                this.playersTurns[1].src = "./graphics/" + ((this.player2.turn) ? "go.png" : "stop.png");
+                            }
+                            // if 1 vs bot mod
+                            else{
+                                [this.player1.turn , this.bot.turn] = [this.bot.turn , this.player1.turn];
+                                this.playersTurns[0].src = "./graphics/" + ((this.player1.turn) ? "go.png" : "stop.png");
+                                this.playersTurns[1].src = "./graphics/" + ((this.bot.turn) ? "go.png" : "stop.png");    
+                            } 
                             
-                            this.playersTurns[0].src = "./graphics/" + ((this.player1.turn) ? "go.png" : "stop.png");
-                            this.playersTurns[1].src = "./graphics/" + ((this.player2.turn) ? "go.png" : "stop.png");
                         }
                         
                         element.setAttribute("empty" , 1);
