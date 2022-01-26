@@ -45,7 +45,7 @@ export class table{
 
         // block's events
         this.events = {
-            onclick : (e) => {
+            on_click : (e) => {
                 // x & y corrdiantes comming from event for knowing wihch block are clicked
                 
                 let x = Number.parseInt(e.target.getAttribute("x"));
@@ -77,18 +77,23 @@ export class table{
                 
             },
             
-            on_hover : () => {
-                if(element.getAttribute("empty") == "0" && this.game_details_obj.hover_mod){
+            on_hover_in : (e) => {
+                let x = Number.parseInt(e.target.getAttribute("x"));
+                let y = Number.parseInt(e.target.getAttribute("y"));
+
+                if(!this.blocks[x][y].empty && this.game_details_obj.hover_mod){
                     if(this.player1.turn){
-                        element.style.backgroundImage = "url('./graphics/x_HoverMod.png')";
+                        this.blocks[x][y].dom.style.backgroundImage = "url('./graphics/x_HoverMod.png')";
                     }
-                    else element.style.backgroundImage = "url('./graphics/o_HoverMod.png')";
+                    else this.blocks[x][y].dom.style.backgroundImage = "url('./graphics/o_HoverMod.png')";
                 }
             },
 
-            on_hover_out : () => {
-                if(element.getAttribute("empty") == "0"){
-                    element.style.backgroundImage = "url('#')";
+            on_hover_out : (e) => {
+                let x = Number.parseInt(e.target.getAttribute("x"));
+                let y = Number.parseInt(e.target.getAttribute("y"));
+                if(!this.blocks[x][y].empty){
+                    this.blocks[x][y].dom.style.backgroundImage = "url('#')";
                 }
             }
 
@@ -115,10 +120,13 @@ export class table{
                 this.blocks[i] = [];
                 
                 for(let c = 0 ; c < this.game_table_size; c += 1){
-                    
+                    // create new block
                     let BLOCK = new block( "block"+i*c , i , c , ((i+1*c+1) % 2 != 0) ? color1 : color2);
                     
-                    BLOCK.dom.addEventListener("click" , this.events.onclick);
+                    // set events to thi block
+                    BLOCK.dom.addEventListener("click" , this.events.on_click);
+                    BLOCK.dom.addEventListener("mouseover" , this.events.on_hover_in);
+                    BLOCK.dom.addEventListener("mouseout" , this.events.on_hover_out);
 
                     // insert it in dom & reserved blocks
                     this.table_dom.appendChild(BLOCK.dom);  
