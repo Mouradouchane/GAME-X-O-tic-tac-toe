@@ -1,25 +1,33 @@
 import {table} from "./table/load_table.js";
 import {time} from "./table/time.js";
+import {BOT} from "./bot/bot.js";
+import {Player} from "./player/player.js";
 
 export class game_table{
 
     constructor(){
+    
         // game status
         this.inGame = false;
         // game time
         this.timer = new time();
 
+        // saved values from user changes in sitting "colors , background ..."
+        this.game_details_obj = JSON.parse( localStorage.getItem("game_details_obj") ); 
+
         // var important for knowing - in wich mod user want to start a new game "1 vs 1" or "1 vs bot"
         this.game_mode = 1;
 
-        // object who responsible for load/render game_table for a new game 
-        this.game_table = null;
+        // game table object & all of it's elements 'blocks'
+        this.table = {
+            table : null,
+            // table size range
+            size_range : document.querySelector("#table_size_range"),
+            size : null,
+        };
 
         // go button => start new game 
         this.go_button = document.querySelector("#start_new_game");
-
-        // game table size 
-        this.table_size_range = document.querySelector("#table_size_range");
 
         // 2 side as buttons for choosing game mode "1 vs 1" or "1 vs bot"
         [this.oneVsone_button , this.onVsbot_button] = document.querySelectorAll(".mods");
@@ -29,9 +37,14 @@ export class game_table{
 
             // we starting a new game in case no game already playing 
             if(!this.inGame){
-                this.game_table = new table(Number.parseInt(this.game_mode) , Number.parseInt(this.table_size_range.value));
+                // set & check table size 
+                this.table.size  = Number.parseInt(this.table.size_range.value) 
+                this.table.size  = (this.table.size < 3) ? 3 : this.table.size;
+                // load game table
+                this.table.table = new table(this.table.size , this.game_details_obj);
+                
                 // start timer
-                this.timer.start();
+                //this.timer.start();
             }
             else console.warn("GAME : you are already in game right know !");
 
@@ -48,5 +61,74 @@ export class game_table{
             this.game_mode = 2;
         });
         
+        // block's events
+        this.events = {
+            on_click : (e) => {
+                // x & y corrdiantes comming from event for knowing wihch block are clicked
+                
+                let x = Number.parseInt(e.target.getAttribute("x"));
+                let y = Number.parseInt(e.target.getAttribute("y"));
+                
+                // in case block empty
+                if(!this.table.table.blocks[x][y].empty){
+                    //debugger
+                    this.reservedBlock += 1;
+ 
+                    this.table.table.blocks[x][y].dom.style.backgroundImage = (this.players.p1.turn) ? "url('./graphics/x.png')" : "url('./graphics/o.png')";
+                    
+                    // if  1 vs 1 mod
+                    if(this.game_mode == 1){
+                        [this.players.p1.turn , this.players.p2.turn] = [this.players.p2.turn , this.players.p1.turn];
+                        this.playersTurns[0].src = "./graphics/" + ((this.players.p1.turn) ? "go.png" : "stop.png");
+                        this.playersTurns[1].src = "./graphics/" + ((this.players.p2.turn) ? "go.png" : "stop.png");
+                    }
+                    // if 1 vs bot mod
+                    else{
+                        [this.players.p1.turn , this.players.bot.turn] = [this.players.bot.turn , this.players.p1.turn];
+                        this.playersTurns[0].src = "./graphics/" + ((this.player1.turn) ? "go.png" : "stop.png");
+                        this.playersTurns[1].src = "./graphics/" + ((this.bot.turn) ? "go.png" : "stop.png");    
+                    } 
+                    
+                    this.table.table.blocks[x][y].empty = true;
+
+                }
+                
+            },
+            
+            on_hover_in : (e) => {
+                let x = Number.parseInt(e.target.getAttribute("x"));
+                let y = Number.parseInt(e.target.getAttribute("y"));
+
+                if(!this.table.table.blocks[x][y].empty && this.game_details_obj.hover_mod){
+                    if(this.player1.turn){
+                        this.blocks[x][y].dom.style.backgroundImage = "url('./graphics/x_HoverMod.png')";
+                    }
+                    else this.blocks[x][y].dom.style.backgroundImage = "url('./graphics/o_HoverMod.png')";
+                }
+            },
+
+            on_hover_out : (e) => {
+                let x = Number.parseInt(e.target.getAttribute("x"));
+                let y = Number.parseInt(e.target.getAttribute("y"));
+                if(!this.blocks[x][y].empty){
+                    this.blocks[x][y].dom.style.backgroundImage = "url('#')";
+                }
+            }
+
+        }
+     
+        
+        this.reservedBlock = 0;
+        this.playersTurns = document.querySelectorAll(".turn");
+ 
+        this.players = {
+            // player  1 & 2 => "1 vs 1" 
+            p1  : JSON.parse( localStorage.getItem("player1") ),
+            p2  : JSON.parse( localStorage.getItem("player2") ),
+            // player BOT in case game => "1 vs bot"
+            bot : (this.game_mode != 1) ? new BOT(this.table.table , this.table.size) : null
+        }
+
+        this.setup
     }
 }
