@@ -1,5 +1,5 @@
 // this moduel should "load/generate" the hole game table with specific size & players data & ...
-
+import {block} from "./blocks.js";
 import {BOT} from "../bot/bot.js";
 
 export class table{
@@ -43,19 +43,20 @@ export class table{
         // loading "this.game_details_obj" for using saved values from user "colors , background ..."
         this.game_details_obj = JSON.parse( localStorage.getItem("game_details_obj") ); 
 
-
-        // table block's events
+        // block's events
         this.events = {
-            onclick : () => {
+            onclick : (e) => {
+                // x & y corrdiantes comming from event for knowing wihch block are clicked
+                
+                let x = Number.parseInt(e.target.getAttribute("x"));
+                let y = Number.parseInt(e.target.getAttribute("y"));
+                
                 // in case block empty
-                if(element.getAttribute("empty") == "0"){
+                if(!this.blocks[x][y].empty){
                     //debugger
                     this.reservedBlock += 1;
-
-                    if(this.player1.turn){
-                        element.style.backgroundImage = "url('./graphics/x.png')";
-                    }
-                    else element.style.backgroundImage = "url('./graphics/o.png')";
+ 
+                    this.blocks[x][y].dom.style.backgroundImage = (this.player1.turn) ? "url('./graphics/x.png')" : "url('./graphics/o.png')";
                     
                     // if  1 vs 1 mod
                     if(this.game_mode == 1){
@@ -70,9 +71,10 @@ export class table{
                         this.playersTurns[1].src = "./graphics/" + ((this.bot.turn) ? "go.png" : "stop.png");    
                     } 
                     
+                    this.blocks[x][y].empty = true;
+
                 }
                 
-                element.setAttribute("empty" , 1);
             },
             
             on_hover : () => {
@@ -91,6 +93,7 @@ export class table{
             }
 
         }
+     
         // function must be run when user click on "GO button"
         // this function it's task only load game table with right style
         this.load_table_elements = () => {
@@ -112,28 +115,14 @@ export class table{
                 this.blocks[i] = [];
                 
                 for(let c = 0 ; c < this.game_table_size; c += 1){
-                // a new table block
-                let element = document.createElement("div");
-                    // setup this new block
-                    element.setAttribute("class","BLOCK_STYLE");
-                    element.setAttribute("id","block"+i*c);
-                    element.setAttribute("index", i*c);
-                    element.setAttribute("empty", 0);
-                    element.style.cssText = `background-color : ${((i+1*c+1) % 2 != 0) ? color1 : color2}`;
-
-                    // setup events for this block 
-                    // when user hover in  that block
-                    element.addEventListener("mouseover", this.events.on_hover);
-
-                    // when user hover out of that block
-                    element.addEventListener("mouseout", this.events.on_hover_out);
-
-                    // when user click on that block
-                    element.addEventListener("click", this.events.onclick);
+                    
+                    let BLOCK = new block( "block"+i*c , i , c , ((i+1*c+1) % 2 != 0) ? color1 : color2);
+                    
+                    BLOCK.dom.addEventListener("click" , this.events.onclick);
 
                     // insert it in dom & reserved blocks
-                    this.table_dom.appendChild(element);  
-                    this.blocks[i][c] = element;            
+                    this.table_dom.appendChild(BLOCK.dom);  
+                    this.blocks[i][c] = BLOCK; 
                 }
             }
             
