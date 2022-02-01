@@ -10,7 +10,7 @@ export class game_table{
         // game status
         this.inGame = false;
         // game time
-        this.timer = new time();
+        this.timer  = new time();
 
         // saved values from user changes in sitting "colors , background ..."
         this.game_details_obj = JSON.parse( localStorage.getItem("game_details_obj") ); 
@@ -117,7 +117,50 @@ export class game_table{
 
         }
      
-        
+        // function must be run when user click on "GO button"
+        // this function load player 1 or 2 data to the game tabel 'depened on game mode'
+        this.load_player_data = (player_index = 1) => {
+            //debugger;
+            let player;
+
+            // load player data from localDB "depened on player index"
+            if(player_index == 1){
+                // try load
+                player = JSON.parse( localStorage.getItem("player1") );
+                // in case failed load def player object & log warning
+                if(player == null || player == undefined){
+                    player = new Player();
+                    console.warn("player 1 data , removed or missing !");
+                }
+            }
+            else{ // samething 
+                player = JSON.parse( localStorage.getItem("player2") );
+
+                if(player == null || player == undefined){
+                    player = new Player();
+                    console.warn("player 2 data , removed or missing !");
+                }
+            } 
+
+            // after player data get loaded, then => fill empty profile's in DOM 
+            if(player_index == 1){
+                this.player_side_1.querySelectorAll(".player_name")[0].textContent = player.name;
+                this.player_side_1.querySelectorAll(".player_pic_profile")[0].src  = player.photo;
+            }
+            else{
+                this.player_side_2.querySelectorAll(".player_name")[0].textContent = player.name;
+                this.player_side_2.querySelectorAll(".player_pic_profile")[0].src  = player.photo;
+            }
+            
+        }
+
+        // like the above function "load_player_data"  
+        this.load_bot_data = () => {
+            let bot = new BOT();
+            this.player_side_2.querySelectorAll(".player_name")[0].textContent = bot.profile.name;
+            this.player_side_2.querySelectorAll(".player_pic_profile")[0].src  = bot.profile.photo;
+        }
+
         this.reservedBlock = 0;
         this.playersTurns = document.querySelectorAll(".turn");
  
@@ -129,6 +172,6 @@ export class game_table{
             bot : (this.game_mode != 1) ? new BOT(this.table.table , this.table.size) : null
         }
 
-        this.setup
+        this.setup;
     }
 }

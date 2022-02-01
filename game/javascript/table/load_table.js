@@ -1,4 +1,6 @@
 // this moduel should "load/generate" the hole game table with specific size & players data & ...
+import { BOT } from "../bot/bot.js";
+import { Player } from "../player/player.js";
 import {block} from "./blocks.js";
 
 
@@ -61,57 +63,28 @@ export class table{
             }
             else table_background.style.backgroundColor = `white`;
            
-
+            /*
             // call load players data depened on mod
-
+            //debugger
             // 1 ==> 1 vs 1 mod
             if(this.game_mode == 1){
                 this.load_player_data(1);
                 this.load_player_data(2);
 
                 // game start always with player 1 turn
-                this.player1.turn = true;  // :)
-                this.player2.turn = false; // :(
+                //this.player1.turn = true;  // :)
+                //this.player2.turn = false; // :(
             }
             // else mean 1 vs bot mod
             else{
                 this.load_player_data(1);
                 this.load_bot_data();
 
-                this.player1.turn = true; // :)
-                this.bot.turn = false;    // :|
+                //this.player1.turn = true; // :)
+                //this.bot.turn = false;    // :|
             }
+            */
         }
-
-        // function must be run when user click on "GO button"
-        // this function load player 1 or 2 data to the game tabel 'depened on game mode'
-        this.load_player_data = (player_index = 1) => {
-            
-            // load player data from localDB "depened on player index"
-            (player_index == 1) ? this.player1 = JSON.parse( localStorage.getItem("player1") ) : this.player2 = JSON.parse( localStorage.getItem("player2") );
-            
-            //console.log( (player_index == 1) ? this.player1 : this.player2 );
-            // after getting player data , then we must filling it in DOM 
-            if(player_index == 1){
-                this.player_side_1.querySelectorAll(".player_name")[0].textContent = this.player1.name;
-                this.player_side_1.querySelectorAll(".player_pic_profile")[0].src  = this.player1.photo;
-            }
-            else{
-                this.player_side_2.querySelectorAll(".player_name")[0].textContent = this.player2.name;
-                this.player_side_2.querySelectorAll(".player_pic_profile")[0].src  = this.player2.photo;
-            }
-            
-        }
-
-        // like the above function "load_player_data"  
-        this.load_bot_data = () => {
-            
-            this.player_side_2.querySelectorAll(".player_name")[0].textContent = this.bot.profile.name;
-            this.player_side_2.querySelectorAll(".player_pic_profile")[0].src  = this.bot.profile.photo;
-            
-        }
-
-      
 
         this.clean_table = () => {
             for(let i = 0 ; i < this.game_table_size ; i += 1){
