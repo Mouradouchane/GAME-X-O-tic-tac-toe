@@ -1,8 +1,5 @@
-// this moduel should "load/generate" the hole game table with specific size & players data & ...
-import { BOT } from "../bot/bot.js";
-import { Player } from "../player/player.js";
+// this moduel should "load/generate" the hole game table with specific size ...
 import {block} from "./blocks.js";
-
 
 export class table{
     constructor(game_table_size = 3 , game_details_obj = {}){

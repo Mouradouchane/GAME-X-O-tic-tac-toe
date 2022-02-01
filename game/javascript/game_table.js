@@ -26,6 +26,14 @@ export class game_table{
             size : null,
         };
 
+        this.players = {
+            // player  1 & 2 => "1 vs 1" 
+            p1  : JSON.parse( localStorage.getItem("player1") ),
+            p2  : JSON.parse( localStorage.getItem("player2") ),
+            // player BOT in case game => "1 vs bot"
+            bot : (this.game_mode != 1) ? new BOT(this.table.table , this.table.size) : null
+        }
+
         // go button => start new game 
         this.go_button = document.querySelector("#start_new_game");
 
@@ -43,6 +51,16 @@ export class game_table{
                 // load game table
                 this.table.table = new table(this.table.size , this.game_details_obj);
                 
+                // load players data
+                if(this.game_mode == 1){
+                    this.load_player_data(1);
+                    this.load_player_data(2);
+                }
+                else{
+                    this.load_player_data(1);
+                    this.load_bot_data();
+                }
+
                 // start timer
                 //this.timer.start();
             }
@@ -117,35 +135,24 @@ export class game_table{
 
         }
      
+        // simple function for check if players data loaded form localDB or not
+        this.check_players_data = () =>{
+            if(this.players.p1 == null) this.players.p1 = new Player("guest_1",0,0);
+            if(this.players.p2 == null) this.players.p2 = new Player("guest_2",0,1);   
+        }
         // function must be run when user click on "GO button"
         // this function load player 1 or 2 data to the game tabel 'depened on game mode'
         this.load_player_data = (player_index = 1) => {
-            //debugger;
-            let player;
+            //debugger
+            // run player checker first for check players data is ready or not 
+            this.check_players_data();
 
-            // load player data from localDB "depened on player index"
+            // after checking players data load, then => fill empty profile's in DOM 
             if(player_index == 1){
-                // try load
-                player = JSON.parse( localStorage.getItem("player1") );
-                // in case failed load def player object & log warning
-                if(player == null || player == undefined){
-                    player = new Player();
-                    console.warn("player 1 data , removed or missing !");
-                }
-            }
-            else{ // samething 
-                player = JSON.parse( localStorage.getItem("player2") );
+                this.players.p1.getUI();
+                this.players.p2.getUI();
 
-                if(player == null || player == undefined){
-                    player = new Player();
-                    console.warn("player 2 data , removed or missing !");
-                }
-            } 
-
-            // after player data get loaded, then => fill empty profile's in DOM 
-            if(player_index == 1){
-                this.player_side_1.querySelectorAll(".player_name")[0].textContent = player.name;
-                this.player_side_1.querySelectorAll(".player_pic_profile")[0].src  = player.photo;
+                //this.player_side_1.querySelectorAll(".player_pic_profile")[0].src  = player.photo;
             }
             else{
                 this.player_side_2.querySelectorAll(".player_name")[0].textContent = player.name;
@@ -164,14 +171,7 @@ export class game_table{
         this.reservedBlock = 0;
         this.playersTurns = document.querySelectorAll(".turn");
  
-        this.players = {
-            // player  1 & 2 => "1 vs 1" 
-            p1  : JSON.parse( localStorage.getItem("player1") ),
-            p2  : JSON.parse( localStorage.getItem("player2") ),
-            // player BOT in case game => "1 vs bot"
-            bot : (this.game_mode != 1) ? new BOT(this.table.table , this.table.size) : null
-        }
-
+     
         this.setup;
     }
 }
