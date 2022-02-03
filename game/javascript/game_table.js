@@ -40,7 +40,7 @@ export class game_table{
         // 2 side as buttons for choosing game mode "1 vs 1" or "1 vs bot"
         [this.oneVsone_button , this.onVsbot_button] = document.querySelectorAll(".mods");
         
-        // when user click go that mean => "start a new game"
+        // when user click "GO" that mean => "start a new game"
         this.go_button.addEventListener("click" , () => {
 
             // we starting a new game in case no game already playing 
@@ -53,11 +53,14 @@ export class game_table{
                 
                 // load players data
                 if(this.game_mode == 1){
-                    this.load_player_data(1);
-                    this.load_player_data(2);
+                        // 1 vs 1
+                this.load_player_profile(1);
+                this.load_player_profile(2);
+
                 }
                 else{
-                    this.load_player_data(1);
+                        // 1 vs bot
+                    this.load_players_data(1);
                     this.load_bot_data();
                 }
 
@@ -68,7 +71,6 @@ export class game_table{
 
             // switch it to true :)
             this.inGame = true;
-            
         })
 
         this.oneVsone_button.addEventListener("click" , () => {
@@ -140,29 +142,23 @@ export class game_table{
             if(this.players.p1 == null) this.players.p1 = new Player("guest_1",0,0);
             if(this.players.p2 == null) this.players.p2 = new Player("guest_2",0,1);   
         }
+
         // function must be run when user click on "GO button"
         // this function load player 1 or 2 data to the game tabel 'depened on game mode'
-        this.load_player_data = (player_index = 1) => {
-            //debugger
-            // run player checker first for check players data is ready or not 
-            this.check_players_data();
-
-            // after checking players data load, then => fill empty profile's in DOM 
-            if(player_index == 1){
-                this.players.p1.getUI();
-                this.players.p2.getUI();
-
-                //this.player_side_1.querySelectorAll(".player_pic_profile")[0].src  = player.photo;
-            }
-            else{
-                this.player_side_2.querySelectorAll(".player_name")[0].textContent = player.name;
-                this.player_side_2.querySelectorAll(".player_pic_profile")[0].src  = player.photo;
-            }
+        this.load_player_profile = (index = 1) => {
+            //debugger;
             
+            // profile in dom
+            let profile = document.querySelectorAll(".player_profile")[index - 1];
+
+            // select depened on player index
+            profile.querySelector(".player_pic_profile").src = (index == 1 ) ? this.players.p1.photo : this.players.p2.photo;
+            profile.querySelector(".player_name").textContent = (index == 1 ) ? this.players.p1.name : this.players.p2.name;
+        
         }
 
         // like the above function "load_player_data"  
-        this.load_bot_data = () => {
+        this.load_bot_profile = () => {
             let bot = new BOT();
             this.player_side_2.querySelectorAll(".player_name")[0].textContent = bot.profile.name;
             this.player_side_2.querySelectorAll(".player_pic_profile")[0].src  = bot.profile.photo;
@@ -170,8 +166,8 @@ export class game_table{
 
         this.reservedBlock = 0;
         this.playersTurns = document.querySelectorAll(".turn");
- 
+
      
-        this.setup;
+
     }
 }
