@@ -10,10 +10,6 @@ export class table{
         
         this.dom = document.querySelector("#GAME_TABLE");
 
-        // both "player_profile" side in table
-        // for loading players data on it
-        [this.player_side_1 , this.player_side_2] = document.querySelectorAll(".player_profile");
-
         // saved values from user changes in sitting "colors , background ..."
         this.game_details_obj = game_details_obj; 
 
@@ -60,43 +56,15 @@ export class table{
             }
             else table_background.style.backgroundColor = `white`;
            
-            /*
-            // call load players data depened on mod
-            //debugger
-            // 1 ==> 1 vs 1 mod
-            if(this.game_mode == 1){
-                this.load_player_data(1);
-                this.load_player_data(2);
-
-                // game start always with player 1 turn
-                //this.player1.turn = true;  // :)
-                //this.player2.turn = false; // :(
-            }
-            // else mean 1 vs bot mod
-            else{
-                this.load_player_data(1);
-                this.load_bot_data();
-
-                //this.player1.turn = true; // :)
-                //this.bot.turn = false;    // :|
-            }
-            */
         }
 
         this.clean_table = () => {
             for(let i = 0 ; i < this.game_table_size ; i += 1){
                 for(let c = 0 ; c < this.game_table_size ; c += 1){
-                    this.virtualtable[i][c] = 0;
-                    this.blocks[i][c] 
+                    this.blocks[i][c].style.backgroundImage = "none"; 
                 }
             }
         }
 
-        // function responsible for logic , win , tie , ...
-        this.check_game = () =>{
-
-        }
-
-        this.load_table();
     }
 }

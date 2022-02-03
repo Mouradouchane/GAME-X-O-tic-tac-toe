@@ -7,7 +7,7 @@ export class block{
 
         this.color = color;
         this.id = id;
-        this.empty = false;
+        this.empty = true;
         // type 1 mean x , 0 mean O
         this.type = null;
         // x & y index as coordinates in tabel
