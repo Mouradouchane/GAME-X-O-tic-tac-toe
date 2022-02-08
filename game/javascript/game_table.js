@@ -71,39 +71,19 @@ export class game_table{
                 // load game table
                 this.table.table = new table(this.table.size , this.game_details_obj);
                 
-                // load players data
-                if(this.game_mode == 1){
-                    // 1 vs 1
-             
-                    //debugger
-                    // set who is gonna play first
-                    let rand = Number.parseInt((Math.random() * 100 + 1));
-                    
-                    if( rand % 2 == 0){
-                        this.players.p1.turn = true;
-                    }
-                    else this.players.p2.turn = true;
+                // for ==> set who is gonna play first
+                let rand = Number.parseInt((Math.random() * 100 + 1));
 
-                    console.log( this.players.p1.turn );
-                    console.log( this.players.p2.turn );
+                // load players data & set startup
 
-                    // load profiles in dom
-                    this.load_player_profile(1);
-                    this.load_player_profile(2);
-                    // load turns in dom
-                    this.update_turns();
-                }
-                else{
-                        // 1 vs bot
-                    this.load_player_profile(1);
-                    this.load_bot_profile();
+                if( rand % 2 == 0) this.players.p1.turn = true;
+                else (this.game_mode == 1) ? this.players.p2.turn = true : this.players.bot.turn = true;
 
-                    // set right who gonna start first
-                    if((Math.random() * 10 + 1) % 2 == 0){
-                        this.players.p1.turn = true;
-                    }
-                    else this.players.p2.turn = true;
-                }
+                // load profiles in dom
+                this.load_player_profile(1);
+                (this.game_mode == 1) ? this.load_player_profile(2) : this.load_bot_profile();
+                // load turns in dom
+                this.update_turns();
 
                 // load table as html/css 
                 this.table.table.load_table();
@@ -141,25 +121,24 @@ export class game_table{
                     //debugger
                     this.reservedBlock += 1;
                     
-                    this.table.table.blocks[x][y].dom.style.backgroundImage = (this.players.p1.turn) ? "url('./graphics/x.png')" : "url('./graphics/o.png')";
-                    
-                    // if  1 vs 1 mod
+                    // switch turn depend on game mod
                     if(this.game_mode == 1){
-                        
+                        this.table.table.blocks[x][y].dom.style.backgroundImage = (this.players.p1.turn) ? "url('./graphics/x.png')" : "url('./graphics/o.png')";
                         [this.players.p1.turn , this.players.p2.turn] = [this.players.p2.turn , this.players.p1.turn];
-                        this.playersTurns[0].src = "./graphics/" + ((this.players.p1.turn) ? "go.png" : "stop.png");
-                        this.playersTurns[1].src = "./graphics/" + ((this.players.p2.turn) ? "go.png" : "stop.png");
-                    
+                        
+                        this.update_turns();
+                        this.table.table.blocks[x][y].empty = false;
                     }
-                    // if 1 vs bot mod
                     else{
-                        [this.players.p1.turn , this.players.bot.turn] = [this.players.bot.turn , this.players.p1.turn];
-                        this.playersTurns[0].src = "./graphics/" + ((this.players.p1.turn)  ? "go.png" : "stop.png");
-                        this.playersTurns[1].src = "./graphics/" + ((this.players.bot.turn) ? "go.png" : "stop.png");    
+                        if(this.players.p1.turn){
+                            this.table.table.blocks[x][y].dom.style.backgroundImage = (this.players.p1.turn) ? "url('./graphics/x.png')" : "url('./graphics/o.png')";
+                            [this.players.p1.turn , this.players.bot.turn] = [this.players.bot.turn , this.players.p1.turn];
+                            
+                            this.update_turns();
+                            this.table.table.blocks[x][y].empty = false;
+                        }
                     } 
                     
-                    this.table.table.blocks[x][y].empty = false;
-
                 }
                 
             },
@@ -220,5 +199,12 @@ export class game_table{
             }
         }
 
+        this.is_draw = () => {
+
+        }
+
+        this.is_win = () => {
+
+        }
     }
 }

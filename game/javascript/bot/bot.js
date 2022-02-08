@@ -6,7 +6,7 @@ export class BOT{
         
         this.game_table = game_table;
         this.table_size = game_table_size;
-
+        this.turn = false;
         // bot normal data
         this.profile = new bot_profile();
 

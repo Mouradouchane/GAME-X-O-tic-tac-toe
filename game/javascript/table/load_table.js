@@ -36,12 +36,7 @@ export class table{
                 for(let c = 0 ; c < this.game_table_size; c += 1){
                     // create new block
                     let BLOCK = new block( "block"+i*c , i , c , ((i+1*c+1) % 2 != 0) ? color1 : color2);
-                    
-                    // set events to thi block
-                    //BLOCK.dom.addEventListener("click"      , this.events.on_click);
-                    //BLOCK.dom.addEventListener("mouseover"  , this.events.on_hover_in);
-                    //BLOCK.dom.addEventListener("mouseout"   , this.events.on_hover_out);
-
+ 
                     // insert it in dom & reserved blocks
                     this.dom.appendChild(BLOCK.dom);  
                     this.blocks[i][c] = BLOCK; 
