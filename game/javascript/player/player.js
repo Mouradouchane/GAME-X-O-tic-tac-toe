@@ -8,7 +8,6 @@ export class Player{
         this.photo = "./graphics/pic_player.png";
         this.turn = false;
         this.index = index;
-        this.type = null; 
     }
 
 }

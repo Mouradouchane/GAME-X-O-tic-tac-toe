@@ -43,6 +43,15 @@ export class game_table{
                         block.dom.addEventListener("mouseout",  this.events.on_hover_out);
                     }
                 }
+            },
+            unsetup_blocks : () => {
+                for(let row of this.table.table.blocks){
+                    for(let block of row){
+                        block.dom.removeEventListener("click" , this.events.on_click);
+                        block.dom.removeEventListener("mouseover", this.events.on_hover_in);
+                        block.dom.removeEventListener("mouseout",  this.events.on_hover_out);
+                    }
+                }
             }
         }
 
@@ -124,18 +133,24 @@ export class game_table{
                     // switch turn depend on game mod
                     if(this.game_mode == 1){
                         this.table.table.blocks[x][y].dom.style.backgroundImage = (this.players.p1.turn) ? "url('./graphics/x.png')" : "url('./graphics/o.png')";
+                        this.table.table.blocks[x][y].owner = (this.players.p1.turn) ? 1 : 2;
                         [this.players.p1.turn , this.players.p2.turn] = [this.players.p2.turn , this.players.p1.turn];
                         
                         this.update_turns();
                         this.table.table.blocks[x][y].empty = false;
+                        
+                        this.is_win();
                     }
                     else{
                         if(this.players.p1.turn){
                             this.table.table.blocks[x][y].dom.style.backgroundImage = (this.players.p1.turn) ? "url('./graphics/x.png')" : "url('./graphics/o.png')";
+                            this.table.table.blocks[x][y].type = (this.players.p1.turn) ? 1 : 2;
                             [this.players.p1.turn , this.players.bot.turn] = [this.players.bot.turn , this.players.p1.turn];
                             
                             this.update_turns();
                             this.table.table.blocks[x][y].empty = false;
+                            
+                            this.is_win();
                         }
                     } 
                     
@@ -204,7 +219,23 @@ export class game_table{
         }
 
         this.is_win = () => {
+            for(let row of this.table.table.blocks){
+                let gp = true;
+                let owner = null;
+                
+                for(let i = 0 ; i < row.length - 1 ; i += 1){
+                    if(row[i].owner != row[i+1].owner || row[i].owner == null) {
+                        gp = false;
+                        break;
+                    }
+                    owner = row[i].owner;
+                }
 
+                if(gp) {
+                    console.log( "winner is => " , (owner == 1) ? "Player 1" : "Player 2");
+                    this.table.unsetup_blocks();
+                }
+            }
         }
     }
 }
