@@ -38,9 +38,9 @@ export class game_table{
             setup_blocks : () => {
                 for(let row of this.table.table.blocks){
                     for(let block of row){
-                        block.dom.addEventListener("click" , this.events.on_click);
+                        block.dom.addEventListener("click" ,    this.events.on_click);
                         block.dom.addEventListener("mouseover", this.events.on_hover_in);
-                        block.dom.addEventListener("mouseout", this.events.on_hover_out);
+                        block.dom.addEventListener("mouseout",  this.events.on_hover_out);
                     }
                 }
             }
@@ -73,19 +73,41 @@ export class game_table{
                 
                 // load players data
                 if(this.game_mode == 1){
-                        // 1 vs 1
-                this.load_player_profile(1);
-                this.load_player_profile(2);
+                    // 1 vs 1
+             
+                    //debugger
+                    // set who is gonna play first
+                    let rand = Number.parseInt((Math.random() * 100 + 1));
+                    
+                    if( rand % 2 == 0){
+                        this.players.p1.turn = true;
+                    }
+                    else this.players.p2.turn = true;
 
+                    console.log( this.players.p1.turn );
+                    console.log( this.players.p2.turn );
+
+                    // load profiles in dom
+                    this.load_player_profile(1);
+                    this.load_player_profile(2);
+                    // load turns in dom
+                    this.update_turns();
                 }
                 else{
                         // 1 vs bot
                     this.load_player_profile(1);
                     this.load_bot_profile();
+
+                    // set right who gonna start first
+                    if((Math.random() * 10 + 1) % 2 == 0){
+                        this.players.p1.turn = true;
+                    }
+                    else this.players.p2.turn = true;
                 }
 
                 // load table as html/css 
                 this.table.table.load_table();
+                
                 // setup events for each block in table
                 this.table.setup_blocks();
 
@@ -148,7 +170,7 @@ export class game_table{
 
                 if(this.table.table.blocks[x][y].empty && this.game_details_obj.hover_mod){
                     if(this.players.p1.turn){
-                        this.blocks[x][y].dom.style.backgroundImage = "url('./graphics/x_HoverMod.png')";
+                        this.table.table.blocks[x][y].dom.style.backgroundImage = "url('./graphics/x_HoverMod.png')";
                     }
                     else this.table.table.blocks[x][y].dom.style.backgroundImage = "url('./graphics/o_HoverMod.png')";
                 }
@@ -185,6 +207,17 @@ export class game_table{
             profile.querySelector(".player_pic_profile").src  = this.players.bot.profile.photo;
             profile.querySelector(".player_name").textContent = this.players.bot.profile.name;
         
+        }
+
+        this.update_turns = () => {
+            this.playersTurns[0].src = (this.players.p1.turn) ? "./graphics/go.png" : "./graphics/stop.png";
+            
+            if(this.game_mode == 1){
+                this.playersTurns[1].src = (this.players.p2.turn) ? "./graphics/go.png" : "./graphics/stop.png";
+            }
+            else{
+                this.playersTurns[1].src = (this.players.bot.turn) ? "./graphics/go.png" : "./graphics/stop.png";
+            }
         }
 
     }
