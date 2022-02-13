@@ -139,7 +139,6 @@ export class game_table{
                         this.update_turns();
                         this.table.table.blocks[x][y].empty = false;
                         
-                        this.is_win();
                     }
                     else{
                         if(this.players.p1.turn){
@@ -150,10 +149,12 @@ export class game_table{
                             this.update_turns();
                             this.table.table.blocks[x][y].empty = false;
                             
-                            this.is_win();
+                          
                         }
                     } 
                     
+                    // check is there a winner or draw
+                    this.is_win() ? null : this.is_draw();
                 }
                 
             },
@@ -214,8 +215,13 @@ export class game_table{
             }
         }
 
+        // check is player draw/tie or not
         this.is_draw = () => {
-
+            let len =  this.table.table.blocks.length;
+            console.log( len * len )
+            if(this.reservedBlock == len * len){
+                console.log("game is draw !!!")
+            }
         }
 
 
@@ -223,29 +229,35 @@ export class game_table{
         this.is_win = () => {
             let gp = true;
             let owner = null;
-
-            // check horizontal 
+            
+            // *** check horizontal ***
+            // loop over row's & check tow by tow until end
             for(let row of this.table.table.blocks){
-                
                 for(let i = 0 ; i < row.length - 1 ; i += 1){
+                    // if element is null or not equal to their neighbor that mean invalid row for win ;)
                     if(row[i].owner != row[i+1].owner || row[i].owner == null) {
+                        // set winner/owner to null & reset flag gp & skip to next row
                         gp = false;
                         owner = null;
                         break;
                     }
-        
+                    // else mean valid pattren soo if that keep like that till the end then we have valid row for winner
                     gp = true;
                     owner = row[i].owner;
                 }
                 
+                // if winner found 
                 if(gp) {
                     console.log( "winner is => " , (owner == 1) ? "Player 1" : "Player 2");
+                    // remove all event's in each block because game is over 
                     this.table.unsetup_blocks();
+                    // confirmation 
                     return true;
                 }
             }
             
-            // check vertical
+            // *** check vertical ***
+            // ==> like horizonal concept
             for(let x = 0 ; x < this.table.table.blocks.length ; x += 1){
                 for(let y = 0 ; y < this.table.table.blocks.length - 1; y += 1){
                     if( this.table.table.blocks[y][x].owner != this.table.table.blocks[y+1][x].owner ||
@@ -267,6 +279,7 @@ export class game_table{
                 }
             }
 
+            // confirmation => "no winner found"
             return false;
         }
     }
