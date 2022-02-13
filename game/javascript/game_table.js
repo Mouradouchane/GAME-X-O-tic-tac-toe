@@ -218,24 +218,56 @@ export class game_table{
 
         }
 
+
+        // function who check if there's a winner 
         this.is_win = () => {
+            let gp = true;
+            let owner = null;
+
+            // check horizontal 
             for(let row of this.table.table.blocks){
-                let gp = true;
-                let owner = null;
                 
                 for(let i = 0 ; i < row.length - 1 ; i += 1){
                     if(row[i].owner != row[i+1].owner || row[i].owner == null) {
                         gp = false;
+                        owner = null;
                         break;
                     }
+        
+                    gp = true;
                     owner = row[i].owner;
                 }
-
+                
                 if(gp) {
                     console.log( "winner is => " , (owner == 1) ? "Player 1" : "Player 2");
                     this.table.unsetup_blocks();
+                    return true;
                 }
             }
+            
+            // check vertical
+            for(let x = 0 ; x < this.table.table.blocks.length ; x += 1){
+                for(let y = 0 ; y < this.table.table.blocks.length - 1; y += 1){
+                    if( this.table.table.blocks[y][x].owner != this.table.table.blocks[y+1][x].owner ||
+                        this.table.table.blocks[y][x].owner == null )
+                    {
+                        gp = false;
+                        owner = null;
+                        break;
+                    }
+
+                    gp = true;
+                    owner = this.table.table.blocks[y][x].owner;
+                }
+
+                if(gp){
+                    console.log( "winner is => " , (owner == 1) ? "Player 1" : "Player 2");
+                    this.table.unsetup_blocks();
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
