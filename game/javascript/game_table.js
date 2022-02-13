@@ -218,7 +218,6 @@ export class game_table{
         // check is player draw/tie or not
         this.is_draw = () => {
             let len =  this.table.table.blocks.length;
-            console.log( len * len )
             if(this.reservedBlock == len * len){
                 console.log("game is draw !!!")
             }
@@ -278,6 +277,49 @@ export class game_table{
                     return true;
                 }
             }
+
+            // check row  ==> \ 
+            for(let l = 0 ; l < this.table.table.blocks.length - 1 ; l += 1){
+                if( this.table.table.blocks[l][l].owner != this.table.table.blocks[l+1][l+1].owner  || 
+                    this.table.table.blocks[l][l].owner == null)
+                {
+                    gp = false;
+                    owner = null;
+                    break;
+                }
+
+                gp = true;
+                owner = this.table.table.blocks[l][l].owner;
+            }
+
+            if(gp){
+                console.log( "winner is => " , (owner == 1) ? "Player 1" : "Player 2");
+                this.table.unsetup_blocks();
+                return true;
+            }
+
+            // check row  ==> /
+            for(let r = this.table.table.blocks.length-1 , l = 0 ; l < this.table.table.blocks.length -1; l += 1 , r -= 1){
+                //debugger
+                if( this.table.table.blocks[l][r].owner != this.table.table.blocks[l+1][r-1].owner  || 
+                    this.table.table.blocks[l][r].owner == null)
+                {
+                    gp = false;
+                    owner = null;
+                    break;
+                }
+
+                gp = true;
+                owner = this.table.table.blocks[l][r].owner;
+
+            }
+
+            if(gp){
+                console.log( "winner is => " , (owner == 1) ? "Player 1" : "Player 2");
+                this.table.unsetup_blocks();
+                return true;
+            }
+
 
             // confirmation => "no winner found"
             return false;
