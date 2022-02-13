@@ -44,12 +44,21 @@ export class game_table{
                     }
                 }
             },
+            // remove all event on each block
             unsetup_blocks : () => {
                 for(let row of this.table.table.blocks){
                     for(let block of row){
                         block.dom.removeEventListener("click" , this.events.on_click);
                         block.dom.removeEventListener("mouseover", this.events.on_hover_in);
                         block.dom.removeEventListener("mouseout",  this.events.on_hover_out);
+                    }
+                }
+            },
+            // remove + clean block 
+            reset_blocks : () => {
+                for(let row of this.table.table.blocks){
+                    for(let block of row){
+                        block.clean();
                     }
                 }
             }
@@ -219,10 +228,10 @@ export class game_table{
         this.is_draw = () => {
             let len =  this.table.table.blocks.length;
             if(this.reservedBlock == len * len){
-                console.log("game is draw !!!")
+                console.log("game is draw !!!");
+                this.table.reset_blocks();
             }
         }
-
 
         // function who check if there's a winner 
         this.is_win = () => {
@@ -319,7 +328,6 @@ export class game_table{
                 this.table.unsetup_blocks();
                 return true;
             }
-
 
             // confirmation => "no winner found"
             return false;

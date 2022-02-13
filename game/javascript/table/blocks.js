@@ -15,7 +15,14 @@ export class block{
             x : x , 
             y : y ,
         };
-    
+        
+        // clear & reset block 
+        this.clean = () => {
+            this.dom.style.backgroundImage = "none";
+            this.owner = null;
+            this.empty = true;
+        }
+
         // setup block
         this.dom.setAttribute("class","BLOCK_STYLE");
         this.dom.setAttribute("id",this.id);
