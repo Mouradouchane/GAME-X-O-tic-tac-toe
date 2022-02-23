@@ -12,7 +12,7 @@ export class game_table{
         // game time
         this.timer  = new time();
 
-        // saved values from user changes in sitting "colors , background ..."
+        // load "game_details_obj" from localDB for "background-image , colors , ..."
         this.game_details_obj = JSON.parse( localStorage.getItem("game_details_obj") ); 
 
         // var important for knowing - in wich mod user want to start a new game "1 vs 1" or "1 vs bot"
@@ -21,13 +21,8 @@ export class game_table{
         this.reservedBlock = 0;
         this.playersTurns = document.querySelectorAll(".turn");
 
-        // simple function for check if players data loaded form localDB or not
-        this.get_player_data = (index = 1) =>{
-            let player = index == 1 ? JSON.parse( localStorage.getItem("player1") ) : JSON.parse( localStorage.getItem("player2") );
-           
-            if(player == null) return (index == 1) ? new Player("guest_1",0,0) : new Player("guest_1",0,1);   
-            else return player;
-        }
+
+      
 
         // game table object & all of it's elements 'blocks'
         this.table = {
@@ -64,12 +59,27 @@ export class game_table{
             }
         }
 
+        // save players obj in localDB
+        this.save_player_data = (index = 1) => {
+            localStorage.setItem(`player${index}` , JSON.stringify( (index == 1) ? this.players.p1 : this.players.p2) );
+        }
+
+        // load players obj from loaclDB or load new instance 
+        this.get_player_data  = (index = 1) =>{
+            let player = index == 1 ? JSON.parse( localStorage.getItem("player1") ) : JSON.parse( localStorage.getItem("player2") );
+
+            if(player == null) return (index == 1) ? new Player("guest_1",0,0) : new Player("guest_1",0,1);   
+            else return player;
+        }
+
         this.players = {
+        
             // player  1 & 2 => "1 vs 1" 
             p1  : this.get_player_data(1) ,
             p2  : this.get_player_data(2) ,
             // player BOT for => "1 vs bot"
             bot : new BOT(this.table.table , this.table.size)
+
         }
 
         // go button => start new game 
@@ -157,13 +167,12 @@ export class game_table{
                             
                             this.update_turns();
                             this.table.table.blocks[x][y].empty = false;
-                            
-                          
+                             
                         }
                     } 
                     
-                    // check is there a winner or draw
-                    this.is_win() ? null : this.is_draw();
+                    // check is someone win or tie      "if yes then stop timer"
+                    (this.is_win() || this.is_draw()) ? this.timer.stop() : null;
                 }
                 
             },
@@ -230,7 +239,9 @@ export class game_table{
             if(this.reservedBlock == len * len){
                 console.log("game is draw !!!");
                 this.table.reset_blocks();
+                return true;
             }
+            else return false;
         }
 
         // function who check if there's a winner 
@@ -259,6 +270,21 @@ export class game_table{
                     console.log( "winner is => " , (owner == 1) ? "Player 1" : "Player 2");
                     // remove all event's in each block because game is over 
                     this.table.unsetup_blocks();
+
+                    // win ++ to the winner :)
+                    if (owner == 1) {
+                        // when player 1 is win
+                        this.players.p1.wins += 1;
+                        this.save_player_data(1);
+                        this.players.p1 = this.load_player_profile(1);
+                    }
+                    else {
+                        // when player 2 is win
+                        this.players.p2.wins += 1;
+                        this.save_player_data(2);
+                        this.players.p2 = this.load_player_profile(2);
+                    }
+
                     // confirmation 
                     return true;
                 }
@@ -283,6 +309,21 @@ export class game_table{
                 if(gp){
                     console.log( "winner is => " , (owner == 1) ? "Player 1" : "Player 2");
                     this.table.unsetup_blocks();
+
+                    // win ++ to the winner :)
+                    if (owner == 1) {
+                        // when player 1 is win
+                        this.players.p1.wins += 1;
+                        this.save_player_data(1);
+                        this.players.p1 = this.load_player_profile(1);
+                    }
+                    else {
+                        // when player 2 is win
+                        this.players.p2.wins += 1;
+                        this.save_player_data(2);
+                        this.players.p2 = this.load_player_profile(2);
+                    }
+
                     return true;
                 }
             }
@@ -304,6 +345,21 @@ export class game_table{
             if(gp){
                 console.log( "winner is => " , (owner == 1) ? "Player 1" : "Player 2");
                 this.table.unsetup_blocks();
+
+                // win ++ to the winner :)
+                if (owner == 1) {
+                    // when player 1 is win
+                    this.players.p1.wins += 1;
+                    this.save_player_data(1);
+                    this.players.p1 = this.load_player_profile(1);
+                }
+                else {
+                    // when player 2 is win
+                    this.players.p2.wins += 1;
+                    this.save_player_data(2);
+                    this.players.p2 = this.load_player_profile(2);
+                }
+
                 return true;
             }
 
@@ -326,6 +382,21 @@ export class game_table{
             if(gp){
                 console.log( "winner is => " , (owner == 1) ? "Player 1" : "Player 2");
                 this.table.unsetup_blocks();
+
+                // win ++ to the winner :)
+                if (owner == 1) {
+                    // when player 1 is win
+                    this.players.p1.wins += 1;
+                    this.save_player_data(1);
+                    this.players.p1 = this.load_player_profile(1);
+                }
+                else {
+                    // when player 2 is win
+                    this.players.p2.wins += 1;
+                    this.save_player_data(2);
+                    this.players.p2 = this.load_player_profile(2);
+                }
+
                 return true;
             }
 

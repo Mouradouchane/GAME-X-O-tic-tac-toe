@@ -54,13 +54,11 @@ export class play_new_game_side{
             this.table_size_value.textContent = `table size : ${newTableSize} x ${newTableSize}`;
         });
 
-
         // go_button => start new game 
         this.go_button.addEventListener("click" , () => {
             // select full table
-           let game_tabel = document.querySelector("#game_tabel");
-           game_tabel.style.display = "block";
-
+            let game_tabel = document.querySelector("#game_tabel");
+            game_tabel.style.display = "block";
         });
 
         this.load_range_value = () => {

@@ -1,4 +1,4 @@
-
+// timer class star , stop , ... 
 export class time{
 
     constructor(){
@@ -20,15 +20,27 @@ export class time{
             this.dom.textContent = this.strTime;
         }
 
+        // live timer
         this.updateInterval = null;
         
+        // start timer
         this.start = () => {
             this.updateInterval = setInterval( this.updateTimer , 1000);
         }
-
-        // stop => clear & reset timer
+        
+        // stop timer
         this.stop = () => {
-            // stop update
+            // stop timer
+            clearInterval(this.updateInterval);
+            // save how much take this match to end
+            //let match_time = this.strTime;
+
+            console.log("match stop at :" + this.strTime)
+        }
+
+        // reset timer
+        this.reset = () => {
+            // stop timer
             clearInterval(this.updateInterval);
 
             // save match time
