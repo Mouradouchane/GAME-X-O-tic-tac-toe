@@ -21,8 +21,13 @@ export class game_table{
         this.reservedBlock = 0;
         this.playersTurns = document.querySelectorAll(".turn");
 
-
-      
+        /* 
+            -1 = no match yet
+            0  = match is pause
+            1  = match is playing
+            2  = match is end winner/draw
+        */
+        this.match_status = -1;
 
         // game table object & all of it's elements 'blocks'
         this.table = {
@@ -56,6 +61,35 @@ export class game_table{
                         block.clean();
                     }
                 }
+            },
+            // when player click on pause
+            pause_on   : () =>{
+                this.match_status = 0;
+                console.log(this.match_status);
+                this.table.table.pause.background.style.display = "block";
+                this.table.table.pause.menu.style.display = "block";
+            },
+            // when player click to back to resume game
+            pause_off  : () =>{
+                this.match_status = 1;
+                console.log(this.match_status);
+                this.table.table.pause.background.style.display = "none";    
+                this.table.table.pause.menu.style.display = "none";    
+
+            },
+            // when player click on quit button
+            on_quit    : () =>{
+                this.match_status = -1;
+                console.log(this.match_status);
+                this.table.table.pause.background.style.display = "none";
+                this.table.table.pause.menu.style.display = "none"; 
+            },
+            // when player click on continue button
+            on_continue: () => {
+                this.match_status = 1;
+                console.log(this.match_status);
+                this.table.table.pause.background.style.display = "none";    
+                this.table.table.pause.menu.style.display = "none"; 
             }
         }
 
@@ -72,6 +106,7 @@ export class game_table{
             else return player;
         }
 
+        // players objects
         this.players = {
         
             // player  1 & 2 => "1 vs 1" 
@@ -99,6 +134,12 @@ export class game_table{
                 // load game table
                 this.table.table = new table(this.table.size , this.game_details_obj);
                 
+                // setup pause menu
+                this.table.table.pause.pause_button.addEventListener("click" , this.table.pause_on);
+                this.table.table.pause.background.addEventListener("click" , this.table.pause_off);
+                this.table.table.pause.quit_button.addEventListener("click" , this.table.on_quit);
+                this.table.table.pause.contine_button.addEventListener("click" , this.table.on_continue);
+
                 // for ==> set who is gonna play first
                 let rand = Number.parseInt((Math.random() * 100 + 1));
 
@@ -403,5 +444,8 @@ export class game_table{
             // confirmation => "no winner found"
             return false;
         }
+
+
+
     }
 }

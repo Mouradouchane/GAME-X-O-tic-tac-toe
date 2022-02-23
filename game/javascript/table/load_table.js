@@ -61,5 +61,14 @@ export class table{
             }
         }
 
+        // pause menu elements
+        this.pause = {
+            pause_button    : document.querySelector("#pauseButton"),
+            background      : document.querySelector("#pause_bg"),
+            quit_button     : document.querySelector("#quitButton"),
+            contine_button  : document.querySelector("#continueButton"),
+            menu            : document.querySelector("#pause_menu")
+        }
+
     }
 }

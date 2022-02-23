@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="css/menu.css">
     <link rel="stylesheet" href="css/game_table_style.css">
     <link rel="stylesheet" href="css/men_play_new_game.css">
+    <link rel="stylesheet" href="css/pause.css">
     <title> [X|O] : MENU</title>
 </head>
 <body>
@@ -155,21 +156,11 @@
 
 
     <!-- game table "side" -->
-      
     <div id="game_tabel">
 
+        <!-- table empty without blocks -->
         <div id="GAME_TABLE">
-            <!-- 
-                <div class="BLOCK_STYLE" id="block1"></div>
-                <div class="BLOCK_STYLE" id="block2"></div>
-                <div class="BLOCK_STYLE" id="block3"></div>
-                <div class="BLOCK_STYLE" id="block4"></div>
-                <div class="BLOCK_STYLE" id="block5"></div>
-                <div class="BLOCK_STYLE" id="block6"></div>
-                <div class="BLOCK_STYLE" id="block7"></div>
-                <div class="BLOCK_STYLE" id="block8"></div>
-                <div class="BLOCK_STYLE" id="block9"></div> 
-            -->
+
         </div>
 
         <!-- player 1 Ui -->
@@ -192,10 +183,12 @@
             <img class="turn" src="./graphics/stop.png">
         </div>
 
-        <div id="reset_game">
-            <p> auto replay in </p>
-            <progress value="30" max="30"></progress>
-            <button> replay </button>
+        <!-- pause Ui -->
+        <button class="btns" id="pauseButton"> PAUSE </button>
+        <div id="pause_bg"></div>
+        <div id="pause_menu">
+            <button class="pause_btns" id="continueButton"> CONTINUE </button>
+            <button class="pause_btns" id="quitButton"> QUIT </button>
         </div>
     </div>
 
