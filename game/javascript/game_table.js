@@ -105,7 +105,6 @@ export class game_table{
             },
             // when player click reset button 
             on_reset : () => {
-                debugger
                 this.match_status = 1;
                 // reset timer
                 this.timer.reset();
@@ -269,7 +268,7 @@ export class game_table{
         // function must be run when user click on "GO button"
         // this function load player 1 or 2 profile in game table 'depened on game mode'
         this.load_player_profile = (index = 1) => {
-            
+
             // profile in dom
             let profile = document.querySelectorAll(".player_profile")[index - 1];
             // set player values

@@ -21,9 +21,9 @@ export class player_sitting{
             let userphoto = userPart.querySelector((idx == 1) ? "#ProfilePicterPlayer1" : "#ProfilePicterPlayer2");
 
             // update name in dom
-            nameArea.textContent = (idx == 1) ? this.player1_data.name : this.player2_data.name ;
+            nameArea.textContent = "Name : " + ((idx == 1) ? this.player1_data.name : this.player2_data.name);
             // update wins count in dom
-            winsArea.textContent = "Match Win : " + (idx == 1) ? this.player1_data.wins : this.player2_data.wins ;
+            winsArea.textContent = "Win's : " + ((idx == 1) ? this.player1_data.wins : this.player2_data.wins);
 
             // update pic in dom 
             userphoto.src = (idx == 1 ) ? this.player1_data.photo : this.player2_data.photo;
