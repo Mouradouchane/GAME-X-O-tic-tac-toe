@@ -53,6 +53,8 @@ export class game_table{
                         block.dom.removeEventListener("mouseout",  this.events.on_hover_out);
                     }
                 }
+                // reset blocks counter
+                this.reservedBlock = 0 ;
             },
             // remove + clean block 
             reset_blocks : () => {
