@@ -64,32 +64,57 @@ export class game_table{
             },
             // when player click on pause
             pause_on   : () =>{
+                // update match status
                 this.match_status = 0;
-                console.log(this.match_status);
+                // display pause menu
                 this.table.table.pause.background.style.display = "block";
                 this.table.table.pause.menu.style.display = "block";
+
+                // stop timer
+                this.timer.stop();
             },
             // when player click to back to resume game
             pause_off  : () =>{
-                this.match_status = 1;
-                console.log(this.match_status);
+                // hide pause menu
                 this.table.table.pause.background.style.display = "none";    
                 this.table.table.pause.menu.style.display = "none";    
+                
+                // stop timer only if players playing
+                if(this.match_status != -1 || this.match_status != 2){
+                    this.timer.start();
 
+                    // update match status
+                    this.match_status = 1;
+                }
             },
             // when player click on quit button
             on_quit    : () =>{
+                // update game status
                 this.match_status = -1;
-                console.log(this.match_status);
+                // hide pause menu
                 this.table.table.pause.background.style.display = "none";
                 this.table.table.pause.menu.style.display = "none"; 
+
+                // reset timer
+                this.timer.reset();
+                this.table.unsetup_blocks();
             },
-            // when player click on continue button
+            // when player click on continue button same as pause_off
             on_continue: () => {
+                this.table.pause_off();
+            },
+            // when player click reset button 
+            on_reset : () => {
+                debugger
                 this.match_status = 1;
-                console.log(this.match_status);
-                this.table.table.pause.background.style.display = "none";    
-                this.table.table.pause.menu.style.display = "none"; 
+                // reset timer
+                this.timer.reset();
+                // reset table & it's block's "for new game"
+                this.table.reset_blocks();
+                this.table.setup_blocks();
+
+                this.table.pause_off();
+
             }
         }
 
@@ -139,6 +164,7 @@ export class game_table{
                 this.table.table.pause.background.addEventListener("click" , this.table.pause_off);
                 this.table.table.pause.quit_button.addEventListener("click" , this.table.on_quit);
                 this.table.table.pause.contine_button.addEventListener("click" , this.table.on_continue);
+                this.table.table.pause.restart_Button.addEventListener("click" , this.table.on_reset);
 
                 // for ==> set who is gonna play first
                 let rand = Number.parseInt((Math.random() * 100 + 1));
@@ -279,7 +305,7 @@ export class game_table{
             let len =  this.table.table.blocks.length;
             if(this.reservedBlock == len * len){
                 console.log("game is draw !!!");
-                this.table.reset_blocks();
+                this.table.unsetup_blocks();
                 return true;
             }
             else return false;
@@ -317,13 +343,13 @@ export class game_table{
                         // when player 1 is win
                         this.players.p1.wins += 1;
                         this.save_player_data(1);
-                        this.players.p1 = this.load_player_profile(1);
+                        this.players.p1 = this.get_player_data(1);
                     }
                     else {
                         // when player 2 is win
                         this.players.p2.wins += 1;
                         this.save_player_data(2);
-                        this.players.p2 = this.load_player_profile(2);
+                        this.players.p2 = this.get_player_data(2);
                     }
 
                     // confirmation 
@@ -356,13 +382,13 @@ export class game_table{
                         // when player 1 is win
                         this.players.p1.wins += 1;
                         this.save_player_data(1);
-                        this.players.p1 = this.load_player_profile(1);
+                        this.players.p1 = this.get_player_data(1);
                     }
                     else {
                         // when player 2 is win
                         this.players.p2.wins += 1;
                         this.save_player_data(2);
-                        this.players.p2 = this.load_player_profile(2);
+                        this.players.p2 = this.get_player_data(2);
                     }
 
                     return true;
@@ -392,13 +418,13 @@ export class game_table{
                     // when player 1 is win
                     this.players.p1.wins += 1;
                     this.save_player_data(1);
-                    this.players.p1 = this.load_player_profile(1);
+                    this.players.p1 = this.get_player_data(1);
                 }
                 else {
                     // when player 2 is win
                     this.players.p2.wins += 1;
                     this.save_player_data(2);
-                    this.players.p2 = this.load_player_profile(2);
+                    this.players.p2 = this.get_player_data(2);
                 }
 
                 return true;
@@ -429,13 +455,13 @@ export class game_table{
                     // when player 1 is win
                     this.players.p1.wins += 1;
                     this.save_player_data(1);
-                    this.players.p1 = this.load_player_profile(1);
+                    this.players.p1 = this.get_player_data(1);
                 }
                 else {
                     // when player 2 is win
                     this.players.p2.wins += 1;
                     this.save_player_data(2);
-                    this.players.p2 = this.load_player_profile(2);
+                    this.players.p2 = this.get_player_data(2);
                 }
 
                 return true;
