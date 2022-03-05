@@ -8,7 +8,7 @@ export class game_table{
     constructor(){
     
         // game status
-        this.inGame = false;
+        this.inMatch = false;
         // game time
         this.timer  = new time();
 
@@ -116,8 +116,25 @@ export class game_table{
 
                 this.table.pause_off();
 
-            }
+            },
+            // when player press esc key
+            on_esc_pressed : () =>{
+                
+                if(this.match_status != -1){
+                    // we toggle between pause on/off depened on match_status
+                    if(this.match_status == 1){
+                        this.table.pause_on();
+                    }
+                    else this.table.pause_off();
+                }
+
+            },
+
         }
+        // set esc event to the document object
+        document.body.addEventListener("keydown" , (e) => {
+            if(e.key == "Escape") this.table.on_esc_pressed();
+        });
 
         // save players obj in localDB
         this.save_player_data = (index = 1) => {
@@ -153,9 +170,10 @@ export class game_table{
         this.go_button.addEventListener("click" , () => {
 
             // we starting a new game in case no game already playing 
-            if(!this.inGame){
+            if(!this.inMatch && this.match_status == -1){
+                this.match_status = 1;
                 // set & check table size 
-                this.table.size  = Number.parseInt(this.table.size_range.value) 
+                this.table.size  = Number.parseInt(this.table.size_range.value);
                 this.table.size  = (this.table.size < 3) ? 3 : this.table.size;
                 // load game table
                 this.table.table = new table(this.table.size , this.game_details_obj);
@@ -193,7 +211,7 @@ export class game_table{
             else console.warn("GAME : you are already in game right know !");
 
             // switch it to true :)
-            this.inGame = true;
+            this.inMatch = true;
         })
 
         this.oneVsone_button.addEventListener("click" , () => {
