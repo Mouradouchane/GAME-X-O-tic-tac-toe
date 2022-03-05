@@ -7,6 +7,7 @@
     background-color: rgba(48, 27, 27, 0.8);
     border : 1vh dashed white;
     animation: colorful 0.5s linear infinite;
+    display:none;
 }
 
 #winner_img{

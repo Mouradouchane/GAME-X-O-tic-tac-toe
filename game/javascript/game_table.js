@@ -168,6 +168,9 @@ export class game_table{
         
         // when user click "GO" that mean => "start a new game"
         this.go_button.addEventListener("click" , () => {
+            // update players data in case there is any changes
+            this.players.p1 = this.get_player_data(1);
+            this.players.p2 = this.get_player_data(2);
 
             // we starting a new game in case no game already playing 
             if(!this.inMatch && this.match_status == -1){
@@ -288,7 +291,7 @@ export class game_table{
         // function must be run when user click on "GO button"
         // this function load player 1 or 2 profile in game table 'depened on game mode'
         this.load_player_profile = (index = 1) => {
-
+            
             // profile in dom
             let profile = document.querySelectorAll(".player_profile")[index - 1];
             // set player values
@@ -363,12 +366,16 @@ export class game_table{
                         this.players.p1.wins += 1;
                         this.save_player_data(1);
                         this.players.p1 = this.get_player_data(1);
+                        // render winner in screen
+                        this.table.table.winner_dom.winner_is(this.players.p1);
                     }
                     else {
                         // when player 2 is win
                         this.players.p2.wins += 1;
                         this.save_player_data(2);
                         this.players.p2 = this.get_player_data(2);
+                        // render winner in screen
+                        this.table.table.winner_dom.winner_is(this.players.p2);
                     }
 
                     // confirmation 
@@ -402,12 +409,16 @@ export class game_table{
                         this.players.p1.wins += 1;
                         this.save_player_data(1);
                         this.players.p1 = this.get_player_data(1);
+                        // render winner in screen
+                        this.table.table.winner_dom.winner_is(this.players.p1);
                     }
                     else {
                         // when player 2 is win
                         this.players.p2.wins += 1;
                         this.save_player_data(2);
                         this.players.p2 = this.get_player_data(2);
+                        // render winner in screen
+                        this.table.table.winner_dom.winner_is(this.players.p2);
                     }
 
                     return true;
@@ -438,12 +449,16 @@ export class game_table{
                     this.players.p1.wins += 1;
                     this.save_player_data(1);
                     this.players.p1 = this.get_player_data(1);
+                    // render winner in screen
+                    this.table.table.winner_dom.winner_is(this.players.p1);
                 }
                 else {
                     // when player 2 is win
                     this.players.p2.wins += 1;
                     this.save_player_data(2);
                     this.players.p2 = this.get_player_data(2);
+                    // render winner in screen
+                    this.table.table.winner_dom.winner_is(this.players.p2);
                 }
 
                 return true;
@@ -475,12 +490,16 @@ export class game_table{
                     this.players.p1.wins += 1;
                     this.save_player_data(1);
                     this.players.p1 = this.get_player_data(1);
+                    // render winner in screen
+                    this.table.table.winner_dom.winner_is(this.players.p1);
                 }
                 else {
                     // when player 2 is win
                     this.players.p2.wins += 1;
                     this.save_player_data(2);
                     this.players.p2 = this.get_player_data(2);
+                    // render winner in screen
+                    this.table.table.winner_dom.winner_is(this.players.p2);
                 }
 
                 return true;

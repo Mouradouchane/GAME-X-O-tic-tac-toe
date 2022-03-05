@@ -71,5 +71,29 @@ export class table{
             restart_Button  : document.querySelector("#restartButton"),
         }
 
+        // winner ui
+        this.winner_dom = {
+            winner_ui : document.querySelector("#winner_ui"),
+            winner_img : document.querySelector("#winner_img"),
+            winner_name : document.querySelector("#winner_name"),
+
+            // function for drawing winner name & img
+            winner_is : (winner = {} ) => {
+                
+                // if invalid winner object then we throw error
+                if(winner.photo == null || winner.name == null) {
+                    throw new Error("invalid winner object ? - we need player object");    
+                }
+                
+                // otherwise
+
+                // display full winner ui
+                winner_ui.style.display = "block";
+                // set name & img
+                winner_img.src = winner.photo;
+                winner_name.textContent = winner.name;
+            }
+        }
+
     }
 }
