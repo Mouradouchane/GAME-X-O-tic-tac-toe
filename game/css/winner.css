@@ -1,0 +1,76 @@
+
+#winner_ui{
+    position:  absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50% , -50%);
+    background-color: rgba(48, 27, 27, 0.8);
+    border : 1vh dashed white;
+    animation: colorful 0.5s linear infinite;
+}
+
+#winner_img{
+    position: relative;
+    width: 50%;
+    margin : 1vh;
+    left:50%;
+    transform: translate(-50%,0);
+    display: inline-block;
+    cursor: default;
+}
+
+#winner_msg{
+    position: relative;
+    font-weight: bold;
+    font-family: tahoma;
+    font-size : 5vh;
+    text-align: center;
+    margin:1vh;
+    display: inline-block;
+    color : yellow;
+    cursor: default;
+    animation: colorful 1s linear infinite;
+}
+
+#winner_name{
+    position: relative;
+    font-weight: bold;
+    font-family: tahoma;
+    font-size : 5vh;
+    text-align: center;
+    margin:1vh;
+    color : white;
+    cursor: default;
+    display: inline-block;
+}
+
+@keyframes colorful {
+    0%{
+        border-color: red;
+        color: red;
+    }
+    14%{
+        border-color: rgb(255, 196, 0);
+        color: rgb(255, 196, 0);
+    }
+    24%{
+        border-color: rgb(21, 255, 0);
+        color: rgb(21, 255, 0);
+    }
+    44%{
+        border-color: rgb(0, 247, 255);
+        color: rgb(0, 247, 255);
+    }
+    54%{
+        border-color: rgb(140, 0, 255);
+        color: rgb(140, 0, 255);
+    }
+    85%{
+        border-color: rgb(255, 0, 157);
+        color: rgb(255, 0, 157);
+    }
+    100%{
+        border-color: red;
+        color: red;
+    }
+}
