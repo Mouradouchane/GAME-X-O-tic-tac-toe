@@ -1,5 +1,5 @@
 import {table} from "./table/load_table.js";
-import {time} from "./table/time.js";
+import {timer} from "./table/timer.js";
 import {BOT} from "./bot/bot.js";
 import {Player} from "./player/player.js";
 
@@ -10,7 +10,7 @@ export class game_table{
         // game status
         this.inMatch = false;
         // game time
-        this.timer  = new time();
+        this.timer  = new timer();
 
         // load "game_details_obj" from localDB for "background-image , colors , ..."
         this.game_details_obj = JSON.parse( localStorage.getItem("game_details_obj") ); 
@@ -54,7 +54,15 @@ export class game_table{
                     }
                 }
                 // reset blocks counter
-                this.reservedBlock = 0 ;
+                this.reservedBlock = 0;
+            },
+            delete_blocks : () => {
+                for(let r = 0 ; r < this.table.table.blocks.length ; r += 1){
+                    //debugger
+                    for(let b = 0 ; b < this.table.table.blocks.length ; b += 1){
+                        this.table.table.blocks[r][b].dom.parentNode.removeChild(this.table.table.blocks[r][b].dom);
+                    }
+                }
             },
             // remove + clean block 
             reset_blocks : () => {
@@ -64,6 +72,7 @@ export class game_table{
                     }
                 }
             },
+
             // when player click on pause
             pause_on   : () =>{
                 // update match status
@@ -94,13 +103,20 @@ export class game_table{
             on_quit : () =>{
                 // update game status
                 this.match_status = -1;
+                this.inMatch = false;
+
                 // hide pause menu
-                this.table.table.pause.background.style.display = "none";
-                this.table.table.pause.menu.style.display = "none"; 
+                this.table.table.hide_table();
+                this.timer.hide();
 
                 // reset timer
                 this.timer.reset();
+
                 this.table.unsetup_blocks();
+                this.table.delete_blocks();
+                delete this.table.table;
+                this.table.table = null;
+                
             },
             // when player click on continue button same as pause_off
             on_continue : () => {
@@ -177,6 +193,7 @@ export class game_table{
         
         // when user click "GO" that mean => "start a new game"
         this.go_button.addEventListener("click" , () => {
+            
             // update players data in case there is any changes
             this.players.p1 = this.get_player_data(1);
             this.players.p2 = this.get_player_data(2);
@@ -199,7 +216,11 @@ export class game_table{
                 // setup winner menu
                 this.table.table.winner_dom.newgame.addEventListener("click" , this.table.on_new_game_pressed);
                 
-                // for ==> set who is gonna play first
+                // hide menu elements
+                let sitting_background = document.querySelector("#sitting_background");
+                    sitting_background.style.display = "none";
+
+                // set who is gonna play first
                 let rand = Number.parseInt((Math.random() * 100 + 1));
 
                 // load players data & set startup

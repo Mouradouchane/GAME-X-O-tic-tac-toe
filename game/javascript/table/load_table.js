@@ -9,6 +9,7 @@ export class table{
         this.blocks = [];
         
         this.dom = document.querySelector("#GAME_TABLE");
+        this.background = document.querySelector("#game_tabel");
 
         // saved values from user changes in sitting "colors , background ..."
         this.game_details_obj = game_details_obj; 
@@ -44,21 +45,43 @@ export class table{
             }
             
             // load background if user allow that 
-            let table_background = document.querySelector("#game_tabel");
-            
             if(this.game_details_obj.background_mod && this.game_details_obj.background_id != undefined){
-                 table_background.style.backgroundImage = `url("./graphics/backgrounds/background_${this.game_details_obj.background_id + 1}.jpg")`;
+                 this.background.style.backgroundImage = `url("./graphics/backgrounds/background_${this.game_details_obj.background_id + 1}.jpg")`;
             }
-            else table_background.style.backgroundColor = `white`;
+            else this.background.style.backgroundColor = `white`;
            
         }
-
+        // clean all blocks in table for new game
+        /*
         this.clean_table = () => {
             for(let i = 0 ; i < this.game_table_size ; i += 1){
                 for(let c = 0 ; c < this.game_table_size ; c += 1){
-                    this.blocks[i][c].style.backgroundImage = "none"; 
+                    this.blocks[i][c].dom.style.backgroundImage = "none"; 
                 }
             }
+        }
+        */
+
+        // destory all blocks in table "when player click on quit button"
+        this.destory_blocks = () => {
+            for(let i = 0 ; i < this.game_table_size ; i += 1){
+                for(let c = 0 ; c < this.game_table_size ; c += 1){
+                    this.blocks[i][c].dom.parentNode.removeChild(this.blocks[i][c].dom);
+                    this.blocks[i][c] = null;
+                }
+            }
+        }
+
+        this.hide_table = () => {
+            this.pause.menu.style.display = "none"; 
+            this.background.style.display = "none"; 
+            
+            let profiles = document.querySelectorAll(".player_profile");
+            let new_game_table_size = document.querySelector("#new_game_table_size");
+            
+            profiles[0].style.display = "none"; 
+            profiles[1].style.display = "none"; 
+            new_game_table_size.style.display = "none"; 
         }
 
         // pause menu elements
@@ -69,6 +92,7 @@ export class table{
             contine_button  : document.querySelector("#continueButton"),
             menu            : document.querySelector("#pause_menu"),
             restart_Button  : document.querySelector("#restartButton"),
+            matchs_result   : document.querySelector("#matchs_result"),
         }
 
         // winner ui

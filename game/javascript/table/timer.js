@@ -1,5 +1,5 @@
 // timer class star , stop , ... 
-export class time{
+export class timer{
 
     constructor(){
         this.sec = 0;
@@ -55,5 +55,13 @@ export class time{
             console.log("match end at :" , this.matchEndTime);
         }
         
+        // hide timer from DOM HTML
+        this.hide = () => {
+            this.dom.style.display = "none";
+        }
+        // make timer visible in DOM HTML
+        this.show = () => {
+            this.dom.style.display = "visible";
+        }
     }
 }
