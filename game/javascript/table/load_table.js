@@ -73,9 +73,11 @@ export class table{
 
         // winner ui
         this.winner_dom = {
-            winner_ui : document.querySelector("#winner_ui"),
-            winner_img : document.querySelector("#winner_img"),
-            winner_name : document.querySelector("#winner_name"),
+            ui   : document.querySelector("#winner_ui"),
+            img  : document.querySelector("#winner_img"),
+            name : document.querySelector("#winner_name"),
+            newgame : document.querySelector("#NewGame"),
+            quitgame : document.querySelector("#QuitGame"),
 
             // function for drawing winner name & img
             winner_is : (winner = {} ) => {
@@ -92,6 +94,7 @@ export class table{
                 // set name & img
                 winner_img.src = winner.photo;
                 winner_name.textContent = winner.name;
+
             }
         }
 

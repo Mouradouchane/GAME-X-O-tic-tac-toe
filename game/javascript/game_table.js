@@ -80,6 +80,7 @@ export class game_table{
                 // hide pause menu
                 this.table.table.pause.background.style.display = "none";    
                 this.table.table.pause.menu.style.display = "none";    
+                this.table.table.winner_dom.ui.style.display = "none";    
                 
                 // stop timer only if players playing
                 if(this.match_status != -1 || this.match_status != 2){
@@ -90,7 +91,7 @@ export class game_table{
                 }
             },
             // when player click on quit button
-            on_quit    : () =>{
+            on_quit : () =>{
                 // update game status
                 this.match_status = -1;
                 // hide pause menu
@@ -102,9 +103,10 @@ export class game_table{
                 this.table.unsetup_blocks();
             },
             // when player click on continue button same as pause_off
-            on_continue: () => {
+            on_continue : () => {
                 this.table.pause_off();
             },
+
             // when player click reset button 
             on_reset : () => {
                 this.match_status = 1;
@@ -116,7 +118,14 @@ export class game_table{
 
                 this.table.pause_off();
 
+                // reset blocks counter
+                this.reservedBlock = 0 ;
             },
+            // when player press new game button
+            on_new_game_pressed : () =>{
+                this.table.on_reset();
+            },
+
             // when player press esc key
             on_esc_pressed : () =>{
                 
@@ -129,7 +138,7 @@ export class game_table{
                 }
 
             },
-
+          
         }
         // set esc event to the document object
         document.body.addEventListener("keydown" , (e) => {
@@ -187,7 +196,9 @@ export class game_table{
                 this.table.table.pause.quit_button.addEventListener("click" , this.table.on_quit);
                 this.table.table.pause.contine_button.addEventListener("click" , this.table.on_continue);
                 this.table.table.pause.restart_Button.addEventListener("click" , this.table.on_reset);
-
+                // setup winner menu
+                this.table.table.winner_dom.newgame.addEventListener("click" , this.table.on_new_game_pressed);
+                
                 // for ==> set who is gonna play first
                 let rand = Number.parseInt((Math.random() * 100 + 1));
 
@@ -508,7 +519,6 @@ export class game_table{
             // confirmation => "no winner found"
             return false;
         }
-
 
 
     }

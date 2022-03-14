@@ -5,7 +5,7 @@
     top: 50%;
     transform: translate(-50% , -50%);
     background-color: rgba(48, 27, 27, 0.8);
-    border : 1vh dashed white;
+    border : 0.8vh dashed white;
     animation: colorful 0.5s linear infinite;
     display:none;
 }
@@ -16,7 +16,7 @@
     margin : 1vh;
     left:50%;
     transform: translate(-50%,0);
-    display: inline-block;
+    display: block;
     cursor: default;
 }
 
@@ -24,25 +24,33 @@
     position: relative;
     font-weight: bold;
     font-family: tahoma;
-    font-size : 5vh;
+    font-size : 3vh;
     text-align: center;
     margin:1vh;
-    display: inline-block;
     color : yellow;
     cursor: default;
     animation: colorful 1s linear infinite;
+    float:left;
 }
 
 #winner_name{
     position: relative;
     font-weight: bold;
     font-family: tahoma;
-    font-size : 5vh;
+    font-size : 3vh;
     text-align: center;
     margin:1vh;
     color : white;
     cursor: default;
-    display: inline-block;
+    float:left;
+}
+
+#NewGame{
+    background-color: rgb(0, 255, 0);
+}
+
+#QuitGame{
+    background-color: rgb(255, 95, 130);
 }
 
 @keyframes colorful {
