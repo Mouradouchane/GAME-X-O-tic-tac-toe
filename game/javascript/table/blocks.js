@@ -23,6 +23,13 @@ export class block{
             this.empty = true;
         }
 
+        this.delete = () => {
+            //debugger;
+            this.dom.parentElement.removeChild(this.dom);
+            this.owner = null;
+            this.empty = true;
+        }
+
         // setup block
         this.dom.setAttribute("class","BLOCK_STYLE");
         this.dom.setAttribute("id",this.id);

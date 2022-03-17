@@ -62,17 +62,8 @@ export class table{
         }
         */
 
-        // destory all blocks in table "when player click on quit button"
-        this.destory_blocks = () => {
-            for(let i = 0 ; i < this.game_table_size ; i += 1){
-                for(let c = 0 ; c < this.game_table_size ; c += 1){
-                    this.blocks[i][c].dom.parentNode.removeChild(this.blocks[i][c].dom);
-                    this.blocks[i][c] = null;
-                }
-            }
-        }
-
         this.hide_table = () => {
+            this.pause.background.style.display = "none"; 
             this.pause.menu.style.display = "none"; 
             this.background.style.display = "none"; 
             
@@ -82,7 +73,11 @@ export class table{
             profiles[0].style.display = "none"; 
             profiles[1].style.display = "none"; 
             new_game_table_size.style.display = "none"; 
+
+            let sitting_background = document.querySelector("#sitting_background");
+                    sitting_background.style.display = "none";
         }
+
 
         // pause menu elements
         this.pause = {

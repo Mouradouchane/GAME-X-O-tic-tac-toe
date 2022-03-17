@@ -59,10 +59,11 @@ export class game_table{
             delete_blocks : () => {
                 for(let r = 0 ; r < this.table.table.blocks.length ; r += 1){
                     //debugger
-                    for(let b = 0 ; b < this.table.table.blocks.length ; b += 1){
-                        this.table.table.blocks[r][b].dom.parentNode.removeChild(this.table.table.blocks[r][b].dom);
+                    for(let b = 0 ; b < this.table.table.blocks[r].length ; b += 1){
+                        this.table.table.blocks[r][b].delete();
                     }
                 }
+                this.table.table.blocks = [];
             },
             // remove + clean block 
             reset_blocks : () => {
