@@ -115,6 +115,8 @@ export class game_table{
 
                 this.table.unsetup_blocks();
                 this.table.delete_blocks();
+
+                // remove table 
                 delete this.table.table;
                 this.table.table = null;
                 
@@ -168,7 +170,7 @@ export class game_table{
         }
 
         // load players obj from loaclDB or load new instance 
-        this.get_player_data  = (index = 1) =>{
+        this.get_player_data = (index = 1) =>{
             let player = index == 1 ? JSON.parse( localStorage.getItem("player1") ) : JSON.parse( localStorage.getItem("player2") );
 
             if(player == null) return (index == 1) ? new Player("guest_1",0,0) : new Player("guest_1",0,1);   
@@ -214,9 +216,10 @@ export class game_table{
                 this.table.table.pause.quit_button.addEventListener("click" , this.table.on_quit);
                 this.table.table.pause.contine_button.addEventListener("click" , this.table.on_continue);
                 this.table.table.pause.restart_Button.addEventListener("click" , this.table.on_reset);
-                // setup winner menu
-                this.table.table.winner_dom.newgame.addEventListener("click" , this.table.on_new_game_pressed);
                 
+                // setup winner/draw menu
+                this.table.table.winner_dom.newgame.addEventListener("click" , this.table.on_new_game_pressed);
+                this.table.table.winner_dom.quitgame.addEventListener("click",this.table.on_quit)
                 // hide menu elements
                 let sitting_background = document.querySelector("#sitting_background");
                     sitting_background.style.display = "none";

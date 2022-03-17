@@ -66,6 +66,7 @@ export class table{
             this.pause.background.style.display = "none"; 
             this.pause.menu.style.display = "none"; 
             this.background.style.display = "none"; 
+            this.winner_dom.ui.style.display = "none"; 
             
             let profiles = document.querySelectorAll(".player_profile");
             let new_game_table_size = document.querySelector("#new_game_table_size");
